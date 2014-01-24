@@ -3,7 +3,7 @@ Introduction :
 at the very foundation this game project was intended to be a board game. I actually already created a material version of it, but due to life tricks, i'v lost half of it. Anyhow the idea kept haunting me. And, i've still gone on drawing, modeling, re/thinking the different concepts sometimes.
 
 Before saying anything else, let me introduce the game itself, I named «Crypte Duel».
-«Crypte Duel» is at a time a turn based strategy game like «Stratego» (if you know about it), a board RPG like «Warhamer» and a card playing game all set in a medieval gothic environment. I'll not go as far as unraveling the planed features of the game just yet as nothing is set in stone right now, and i'll gladly accept constructive criticism from the team i'm planing to form.
+«Crypte Duel» is at a time a turn based strategy game like «Stratego» (if you know about it), a board RPG like «Warhamer» and a card playing game all set in a medieval gothic environment. I'll not go as far as unraveling the planed features of the game just yet as nothing is set in stone right now, and i'll gladly accept constructive criticism from the team i'm planing to form. It is based on Unity, but this may change according to team members ability. 
 
 That said, a word about me. I'm Idolord, Im a graphic artist both 2D, 3D (organic/non-organic) modeler and coder. I love above all learning new stuff, thinking hard and experimenting.
 
