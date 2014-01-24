@@ -1,0 +1,38 @@
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2008
+
+Project("{FFEB6054-2779-C984-5FB8-A8F7849BE022}") = "kripte4", "Assembly-CSharp-vs.csproj", "{CA2A491A-7C1E-40C1-AB91-CC84349B4162}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{CA2A491A-7C1E-40C1-AB91-CC84349B4162}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CA2A491A-7C1E-40C1-AB91-CC84349B4162}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CA2A491A-7C1E-40C1-AB91-CC84349B4162}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CA2A491A-7C1E-40C1-AB91-CC84349B4162}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+																																																																																																																																																																																																																																																																																																																																																GlobalSection(MonoDevelopProperties) = preSolution
+		StartupItem = Assembly-CSharp.csproj
+		Policies = $0
+		$0.TextStylePolicy = $3
+		$1.inheritsSet = null
+		$1.scope = text/x-csharp
+		$0.CSharpFormattingPolicy = $2
+		$2.inheritsSet = Mono
+		$2.inheritsScope = text/x-csharp
+		$2.scope = text/x-csharp
+		$3.FileWidth = 120
+		$3.TabWidth = 4
+		$3.EolMarker = Unix
+		$3.inheritsSet = Mono
+		$3.inheritsScope = text/plain
+		$3.scope = text/plain
+	EndGlobalSection
+
+EndGlobal
