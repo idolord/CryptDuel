@@ -24,8 +24,7 @@ I'm Idolord, I'm a graphic artist both in 2D, organic and non-organic 3D modelle
 
 I'm looking for people who:
 *   Love board games
-*   Have heard of Elixir
-*   Love to play Smallworld2, Stone age, Agricola, Colon Catane, Magics, or even Bonanza
+*   Might have heard of or love to play: Elixir, Smallworld2, Stone age, Agricola, Colon Catane, Magics, or even Bonanza
 	
 *or anybody willing to be*	
 *   Multiple roles 
