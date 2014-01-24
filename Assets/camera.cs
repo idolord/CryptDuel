@@ -14,6 +14,7 @@ public class camera : MonoBehaviour {
     public Quaternion currentRotation;
     private Quaternion desiredRotation;
     private Quaternion rotation;
+    public Quaternion transrot;
     public float zoomDampening = 5.0f;
     public bool overgui = false;
         void Start ()
@@ -24,6 +25,9 @@ public class camera : MonoBehaviour {
 
         void Update()
         {
+            transform.Translate(Vector3.right * Input.GetAxis("Horizontal"),Space.Self);
+            transform.Translate(Vector3.forward * Input.GetAxis("Vertical"),Space.Self);
+            transform.position = new Vector3(transform.position.x, 15, transform.position.z);
             if (Input.GetKey(KeyCode.LeftShift))
             {
                 if (Input.GetMouseButton(0))
@@ -31,10 +35,11 @@ public class camera : MonoBehaviour {
                     xDeg += Input.GetAxis("Mouse X") * xSpeed * 0.02f;
                     yDeg -= Input.GetAxis("Mouse Y") * ySpeed * 0.02f;
                     yDeg = Mathf.Clamp(yDeg, 35, 90);
-                    desiredRotation = Quaternion.Euler(yDeg, xDeg, 0);
                     currentRotation = transform.rotation;
+                    desiredRotation = Quaternion.Euler(yDeg, xDeg, 0);
                     rotation = Quaternion.Lerp(currentRotation, desiredRotation, Time.deltaTime * zoomDampening);
                     transform.rotation = rotation;
+
                 }
                 
             }

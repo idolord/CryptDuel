@@ -48,7 +48,6 @@
   <ItemGroup>
      <Compile Include="Assets\Tileholder.cs" />
      <Compile Include="Assets\camera.cs" />
-     <Compile Include="Assets\focus.cs" />
      <Compile Include="Assets\init.cs" />
      <Compile Include="Assets\menu.cs" />
      <Compile Include="Assets\zonepointer.cs" />
