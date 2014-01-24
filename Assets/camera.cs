@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+
+//script for moving camera
 public class camera : MonoBehaviour {
 
     private Transform camtransf;

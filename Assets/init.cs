@@ -10,18 +10,26 @@ public class init : MonoBehaviour
     // Use this for initialization
     void Start()
     {
+        //instatiating mainmenu.
         //GameObject startmenu = Instantiate(Resources.Load("ui/menuGO")) as GameObject;
+        
+        //instantiating environement
         env envi = new env();
         
+        //instanciating map with it's parameters
         map map = new map("entrance", envi);
         //Debug.Log(map.mapname);
 
+        //getting global map path
         string mapfilepath = map.getmappath(map.mapname);
         //Debug.Log(mapfilepath);
 
+        //getting map full path
         map.mapfilepath = mapfilepath;
         //Debug.Log(map.mapfilepath);
 
+
+        // checking if file exist
         if (map.mapfilepath == "error")
         {
             Debug.LogError("error occured opening map file");
@@ -29,13 +37,18 @@ public class init : MonoBehaviour
         else
         {
             //Debug.Log("path ok");
+
             string zonename;
             string[] mapparts = new string[100];
+            //populating map.tempzone acording to image
             map.tempzone = tools.getcolor(map.mapfilepath);
             string textfile = map.getzonedeftxt(map.mapname);
+            //grabing zone references 
             mapparts = tools.getMapZones(textfile);
             map.zonemap = new List<List<Zone>>();
             List<Zone> row = new List<Zone>();
+
+            //instanciating every zone + adding "border" zones (not interactive)
             for (int i = 0; i < (map.tempzone.Count) + 2; i++)
             {
                 GameObject zonepos = Instantiate(Resources.Load("map/zonepointer")) as GameObject;
@@ -96,7 +109,7 @@ public class init : MonoBehaviour
 
 
 
-
+        //populating every zone Tiles
         //Debug.Log("populating empty tile");
         for (int i = 0; i < map.zonemap.Count; i++)
         {
@@ -211,10 +224,11 @@ public class init : MonoBehaviour
                 }
             }
         }
+        //generating map global tilemap
         map.generatemaptilemap();
+        //updating tiles according to surounding
         map.tileCheckForEmptyToWall();
-        // voir resultat 
-        //puis tenter un check neightbour
+       
         
     }
 
