@@ -3,8 +3,7 @@ using System.Collections;
 using Worldbuilder;
 
 public class menu : MonoBehaviour {
-
-    public Texture bkgt= (Texture)Resources.Load("ui/book");
+    public Texture bkgt;
     public env Gui;
     GUILayout menulayout;
 
@@ -28,6 +27,6 @@ public class menu : MonoBehaviour {
     void OnGUI()
     {
 
-        GUI.DrawTexture(new Rect(Screen.width/2, Screen.height/2,bkgt.width,bkgt.height), bkgt, ScaleMode.ScaleToFit, true, 10.0F);
+        GUI.DrawTexture(new Rect((Screen.width/2)-(bkgt.width/2),(Screen.height/2)-(bkgt.height/2),bkgt.width,bkgt.height), bkgt);
     }
 }

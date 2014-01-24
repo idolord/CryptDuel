@@ -10,10 +10,8 @@ public class init : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        GameObject startmenu = Instantiate(Resources.Load("ui/menuGO")) as GameObject;
+        //GameObject startmenu = Instantiate(Resources.Load("ui/menuGO")) as GameObject;
         env envi = new env();
-
-        //GameObject Menuholder = Instantiate(Resources.Load("ui/Menu")) as GameObject;
         
         map map = new map("entrance", envi);
         //Debug.Log(map.mapname);
