@@ -11,7 +11,7 @@ public class zonepointer : MonoBehaviour {
     }
 
 	void Start () {
-	
+
 	}
 	
 	// Update is called once per frame

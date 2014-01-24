@@ -5,27 +5,21 @@ using System.Collections;
 //script for moving camera
 public class camera : MonoBehaviour {
 
-    private Transform camtransf;
-    public Transform camfocuss;
     public float distance;
     public float rotatespeed;
     private float xDeg = 0.0f;
     private float yDeg = 0.0f;
     public float xSpeed = 200.0f;
     public float ySpeed = 200.0f;
-    private Quaternion currentRotation;
+    public Quaternion currentRotation;
     private Quaternion desiredRotation;
     private Quaternion rotation;
     public float zoomDampening = 5.0f;
-    Vector2 camRotation;
     public bool overgui = false;
         void Start ()
         {
             distance = 10;
-            camtransf = transform;
             rotatespeed = 1.5f;
-            transform.position = new Vector3(camfocuss.transform.position.x,camfocuss.transform.position.y + distance,camfocuss.transform.position.z-5);
-            camtransf.LookAt(camfocuss);
         }
 
         void Update()
