@@ -12,7 +12,9 @@ public class init : MonoBehaviour
     {
         //instatiating mainmenu.
         //GameObject startmenu = Instantiate(Resources.Load("ui/menuGO")) as GameObject;
-        
+        GameObject cam = new GameObject();
+        cam.AddComponent<Camera>();
+        cam.gameObject.AddComponent<camera>();
         //instantiating environement
         env envi = new env();
         
@@ -107,7 +109,7 @@ public class init : MonoBehaviour
             map.zonemap.Add(row);
         }
 
-
+        cam.transform.position = new Vector3(((map.zonemap.Count/2)*16)-8,15,((map.zonemap[1].Count/2)*16)-8);
 
         //populating every zone Tiles
         //Debug.Log("populating empty tile");
