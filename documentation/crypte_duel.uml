@@ -8067,6 +8067,14 @@
 <XPD:OBJ name="OwnedElements[5]" type="UMLModel" guid="lrFf0b8jL0iRUi3wMKApIgAA">
 <XPD:ATTR name="Name" type="string">GUI - Game</XPD:ATTR>
 <XPD:REF name="Namespace">/Cte//0ZzEeIEQ8rjfsWmgAA</XPD:REF>
+<XPD:ATTR name="#OwnedDiagrams" type="integer">1</XPD:ATTR>
+<XPD:OBJ name="OwnedDiagrams[0]" type="UMLClassDiagram" guid="hS+ajz5wJ0KKHQt5TdySFAAA">
+<XPD:ATTR name="Name" type="string">ClassDiagram1</XPD:ATTR>
+<XPD:REF name="DiagramOwner">lrFf0b8jL0iRUi3wMKApIgAA</XPD:REF>
+<XPD:OBJ name="DiagramView" type="UMLClassDiagramView" guid="qEuPnL7lIECnSp37Bsol8QAA">
+<XPD:REF name="Diagram">hS+ajz5wJ0KKHQt5TdySFAAA</XPD:REF>
+</XPD:OBJ>
+</XPD:OBJ>
 </XPD:OBJ>
 <XPD:OBJ name="OwnedElements[6]" type="UMLModel" guid="ZZSQMg8XF0GZJFk002zfDwAA">
 <XPD:ATTR name="Name" type="string">Crypte Duel</XPD:ATTR>
