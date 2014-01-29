@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<XPD:PROJECT xmlns:XPD="http://www.staruml.com" version="1">
+<XPD:HEADER>
+<XPD:SUBUNITS>
+</XPD:SUBUNITS>
+<XPD:PROFILES>
+<XPD:PROFILE>UMLStandard</XPD:PROFILE>
+</XPD:PROFILES>
+</XPD:HEADER>
+<XPD:BODY>
+<XPD:OBJ name="DocumentElement" type="UMLProject" guid="OTqBi/98jkGchePVJ8QgoQAA">
+<XPD:ATTR name="Title" type="string">Untitled</XPD:ATTR>
+<XPD:ATTR name="#OwnedElements" type="integer">4</XPD:ATTR>
+<XPD:OBJ name="OwnedElements[0]" type="UMLPackage" guid="AlVkh7ckXEqFqtKI8Ul03gAA">
+<XPD:ATTR name="Name" type="string">Crypte</XPD:ATTR>
+<XPD:REF name="Namespace">OTqBi/98jkGchePVJ8QgoQAA</XPD:REF>
+</XPD:OBJ>
+<XPD:OBJ name="OwnedElements[1]" type="UMLSubsystem" guid="HRlMoRc+DUOEBX+pmCu9LQAA">
+<XPD:ATTR name="Name" type="string">Forum</XPD:ATTR>
+<XPD:REF name="Namespace">OTqBi/98jkGchePVJ8QgoQAA</XPD:REF>
+</XPD:OBJ>
+<XPD:OBJ name="OwnedElements[2]" type="UMLPackage" guid="LipHGh0F8EKPVc6Sj4l0pwAA">
+<XPD:ATTR name="Name" type="string">Website</XPD:ATTR>
+<XPD:REF name="Namespace">OTqBi/98jkGchePVJ8QgoQAA</XPD:REF>
+</XPD:OBJ>
+<XPD:OBJ name="OwnedElements[3]" type="UMLPackage" guid="xbpR9tMwTECeSwZ5Cid8MAAA">
+<XPD:ATTR name="Name" type="string">Game</XPD:ATTR>
+<XPD:REF name="Namespace">OTqBi/98jkGchePVJ8QgoQAA</XPD:REF>
+</XPD:OBJ>
+</XPD:OBJ>
+</XPD:BODY>
+</XPD:PROJECT>
