@@ -1,0 +1,73 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{458A856D-7DE5-439D-B39C-DAD57878FE60}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Project1</RootNamespace>
+    <AssemblyName>Project1</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="Cimetiere.cs" />
+    <Compile Include="Entite.cs" />
+    <Compile Include="Creature.cs" />
+    <Compile Include="GestionCarte.cs" />
+    <Compile Include="Hand.cs" />
+    <Compile Include="Hero.cs" />
+    <Compile Include="Layout.cs" />
+    <Compile Include="Piege.cs" />
+    <Compile Include="Pioche.cs" />
+    <Compile Include="Sort.cs" />
+    <Compile Include="ZoneEffet.cs" />
+    <Compile Include="Joueur.cs" />
+    <Compile Include="Tuile.cs" />
+    <Compile Include="Test.cs" />
+    <Compile Include="Pion.cs" />
+    <Compile Include="Map.cs" />
+    <Compile Include="Carte.cs" />
+    <Compile Include="Tombeau.cs" />
+    <Compile Include="Crypte.cs" />
+    <Compile Include="Zone.cs" />
+    <Compile Include="Arene.cs" />
+    <Compile Include="Deck.cs" />
+    <Compile Include="Phase.cs" />
+    <Compile Include="Tour.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
