@@ -5,112 +5,112 @@ using UnityEngine;
 
 namespace Worldbuilder
 {
-    public class tools
+    public class Tools
     {
         
 
-        public static List<List<System.Drawing.Color>> getcolor(string path)
+        public static List<List<System.Drawing.Color>> getColor(string path)
         {
             //Debug.Log("getting zonecolor form map image "+path);
-            Bitmap zonemapimage = new Bitmap(path);
-            List<List<System.Drawing.Color>> zonelist = new List<List<System.Drawing.Color>>();
+            Bitmap zoneMapImage = new Bitmap(path);
+            List<List<System.Drawing.Color>> zoneListe = new List<List<System.Drawing.Color>>();
             List<System.Drawing.Color> row = new List<System.Drawing.Color>();
             System.Drawing.Color pixelColor = new System.Drawing.Color();
 
             //zonemapimage = new Bitmap(path);
-            for (int i = 0; i < zonemapimage.Height; i++)
+            for (int i = 0; i < zoneMapImage.Height; i++)
             {
                 row = new List<System.Drawing.Color>();
-                for (int j = 0; j < zonemapimage.Width; j++)
+                for (int j = 0; j < zoneMapImage.Width; j++)
                 {
-                    pixelColor = zonemapimage.GetPixel(j, i);
+                    pixelColor = zoneMapImage.GetPixel(j, i);
                     row.Add(pixelColor);
                     //Debug.Log("  " + pixelColor.R + "     " + pixelColor.G + "     " + pixelColor.B + "     " + pixelColor.A + "     \n");
                 }
-                zonelist.Add(row);
+                zoneListe.Add(row);
             }
-            return zonelist;
+            return zoneListe;
         }
 
         public static string[] getMapZones(string path)
         {
             //Debug.Log("getting zone name from "+ path);
-            string zonerecived = path;
+            string zoneRecu = path;
             //Debug.Log("reader opened");
-            StreamReader reader = openTextFile(zonerecived);
+            StreamReader reader = openTextFile(zoneRecu);
             string input;
-            List<string> zonetext = new List<string>();
-            List<string> zonetosendback = new List<string>();
+            List<string> zoneTexte = new List<string>();
+            List<string> zoneARenvoyer = new List<string>();
             //Debug.Log("reading document");
             input = reader.ReadLine();
             while (input != null)
             {
-                zonetext.Add(input);
+                zoneTexte.Add(input);
                 input = reader.ReadLine();
             }
             //Debug.Log("end reading");
             reader.Close();
             //Debug.Log ("computting");
 
-            
-            for (int i = 0; i < zonetext.Count; i++)
+
+            for (int i = 0; i < zoneTexte.Count; i++)
             {
-                if (!zonetext[i].StartsWith("="))
+                if (!zoneTexte[i].StartsWith("="))
                 {
-                    if (!zonetext[i].StartsWith(" "))
+                    if (!zoneTexte[i].StartsWith(" "))
                     {
-                        if (!zonetext[i].StartsWith("*"))
+                        if (!zoneTexte[i].StartsWith("*"))
                         {
-                            zonetosendback.Add(zonetext[i]);
+                            zoneARenvoyer.Add(zoneTexte[i]);
                         }
                     }
                 }
             }
             string definition;
-            string[] zonetocompare = new string[zonetosendback.Count];
+            string[] zoneAComparer = new string[zoneARenvoyer.Count];
             int j = 0;
-            for (int i = 0; i < zonetosendback.Count; i++)
+            for (int i = 0; i < zoneARenvoyer.Count; i++)
             {
-                definition = zonetosendback[i] + ",";
+                definition = zoneARenvoyer[i] + ",";
                 i++;
-                definition = definition + zonetosendback[i] + ",";
+                definition = definition + zoneARenvoyer[i] + ",";
                 i++;
-                definition = definition + zonetosendback[i] + ",";
+                definition = definition + zoneARenvoyer[i] + ",";
                 i++;
-                definition = definition + zonetosendback[i];
+                definition = definition + zoneARenvoyer[i];
                 //Debug.Log(definition);
-                zonetocompare[j] = definition;
+                zoneAComparer[j] = definition;
                 j++;
             }
             
             //Debug.Log("returning string array of zone definitions");
-            return zonetocompare;
+            return zoneAComparer;
         }
 
-        public static string getzonename(string[] confzone, string reczone)
+        public static string getNomZone(string[] configZone, string recZone)
         {
-            string[] mapconfig = new string[200];
-            string recivedcolor = string.Empty;
-            mapconfig = confzone;
-            recivedcolor = reczone;
-            string[] configparts = new string[4];
+            string[] mapConfig = new string[200];
+            string receivedColor = string.Empty;
+            mapConfig = configZone;
+            receivedColor = recZone;
+            string[] configParts = new string[4];
             string[] recparts = new string[3];
-            string zonename = string.Empty;
+            string zoneName = string.Empty;
             //Debug.Log("spliting recived zone" + recivedcolor);
-            recparts = recivedcolor.Split(',');
-            for (int i = 0; i < mapconfig.Length; i++)
+            recparts = receivedColor.Split(',');
+            for (int i = 0; i < mapConfig.Length; i++)
             {
-                configparts = mapconfig[i].Split(',');
+                configParts = mapConfig[i].Split(',');
                 //Debug.Log("spliting config zone" + mapconfig[i]);
-                if (configparts[0] == recparts[0])
+                if (configParts[0] == recparts[0])
                 {
-                    if (configparts[1] == recparts[1])
+                    if (configParts[1] == recparts[1])
                     {
-                        if (configparts[2] == recparts[2])
+                        if (configParts[2] == recparts[2])
                         {
-                            zonename = configparts[3];
+                            zoneName = configParts[3];
                             //Debug.Log("sending back data "+zonename);
-                            return zonename;
+                            return zoneName;
                         }
                     }
                 }
@@ -120,18 +120,18 @@ namespace Worldbuilder
             return "error";
         }
 
-        public static StreamReader openTextFile(string file)
+        public static StreamReader openTextFile(string fichier)
         {
-            StreamReader sr;
-            sr = File.OpenText(file);
-            return sr;
+            StreamReader streamReader;
+            streamReader = File.OpenText(fichier);
+            return streamReader;
         }
 
-        public static string colortostring(System.Drawing.Color x)
+        public static string colorToString(System.Drawing.Color uneCouleur)
         {
-            System.Drawing.Color color = x;
-            string constr = color.R.ToString() + "," + color.G.ToString() + "," + color.B.ToString();
-            return constr;
+            System.Drawing.Color couleur = uneCouleur;
+            string couleurString = couleur.R.ToString() + "," + couleur.G.ToString() + "," + couleur.B.ToString();
+            return couleurString;
         }
 
     }

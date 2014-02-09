@@ -10,13 +10,13 @@ using System.Text;
 namespace Worldbuilder
 {
     [Serializable]
-    public class env
+    public class Environnement
     {
-        public bool overGUI;
-        public bool canend;
-        public bool ended;
+        private bool overGUI;
+        private bool canend;
+        private bool ended;
 
-        public env()
+        public Environnement()
         {
             canend = false;
             ended = false;
@@ -29,34 +29,34 @@ namespace Worldbuilder
     }
 
     [Serializable]
-    public class map
+    public class Map
     {
 
 
-        public string mapName;
-        public static string mapsFilesPath = Application.dataPath+@"\Textures\Maps\";
-        public string mapPath;
-        public string mapFilePath;
-        public List<List<Zone>> zoneMap;
-        public List<List<System.Drawing.Color>> zoneColorMap;
-        public List<List<Tile>> tileMap;
-        public List<Tile> TileMapRow;
-        public env environement;
-        public int ndx;
-        public int nby;
+        private string mapName;
+        private static string mapsFilesPath = Application.dataPath + @"\Textures\Maps\";
+        private string mapPath;
+        private string mapFilePath;
+        private List<List<Zone>> zoneMap;
+        private List<List<System.Drawing.Color>> zoneColorMap;
+        public static List<List<Tuile>> tuileMap;
+        private List<Tuile> ligne;
+        private Environnement environement;
+        private int nbX;
+        private int nbY;
 
 
 
-        public map(string x, env y)
+        public Map(string x, Environnement y)
         {
             mapName = x;
             environement = y;
             zoneMap = new List<List<Zone>>();
             zoneColorMap = new List<List<System.Drawing.Color>>();
-            tileMap = new List<List<Tile>>();
+            tuileMap = new List<List<Tuile>>();
         }
 
-        public string getmappath (string x)
+        public string getCheminMap (string x)
         {
             mapName = x;
             mapPath = mapsFilesPath + mapName + @"\";
@@ -81,7 +81,7 @@ namespace Worldbuilder
             }
         }
 
-        public string getzonedeftxt(string x)
+        public string getZoneDefTXT(string x)
         {
             mapName = x;
             mapPath = mapsFilesPath + mapName + @"\";
@@ -106,64 +106,38 @@ namespace Worldbuilder
             }
         }
 
-        public void generatemaptilemap()
+        public void GenererTuileMap()
         {
             foreach (List<Zone> list in this.zoneMap)
             {
                 for (int i = 0; i < 16; i++)
                 {
-                    this.tileMap.Add(this.gettilemaprow(i, list));
+                    Map.tuileMap.Add(this.getTuileMapLigne(i));
                 }
             }
         }
 
-        public List<Tile> gettilemaprow(int index, List<Zone> list)
+        public List<Tuile> getTuileMapLigne(int index)
         {
-            List<Tile> temp = new List<Tile>();
-            for (int i = 0; i < list.Count; i++)
-            {
+            List<Tuile> temp = new List<Tuile>();
+
                 for (int j = 0; j < 16; j++)
                 {
-                    temp.Add(list[i].tilemap[index][j]);
+                    temp.Add(Map.tuileMap[index][j]);
                     //if (list[i].tilemap[index][j].type != "empty")
                     //{
                     //    //Debug.Log("adding tile to list " + list[i].tilemap[index][j].type);
                     //}
                 }
-            }
+
             return temp;
 
         }
 
-        public void tileCheckForEmptyToWall ()
-        {
-            for (int i = 0; i < tileMap.Count; i++)
-            {
-                for (int j = 0; j < tileMap[i].Count; j++)
-                {
-                    if (tileMap[i][j].type == "openfloorTile")
-                    {
-                        List<Tile> temp = tileMap[i][j].getsouroundingTiles();
-                        for (int k = 0; k < temp.Count; k++)
-                        {
-                            if (temp[k].type == "empty")
-                            {
-                                temp[k].tilehandle.SendMessage("changetowall");
-                            }
-                            else if (temp[k].type == "border")
-                            {
-                                temp[k].tilehandle.SendMessage("changetowallborder");
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
         public List<Pion> pionAdjacent(Pion pion)
         {
-            int x = Pion.getPosX();
-            int y = Pion.getPosY();
+            int x = pion.getPosX();
+            int y = pion.getPosY();
             List<Pion> pionAdjacent = new List<Pion>();
             Tuile tuileNord = tuileMap[y - 1][x];
             Tuile tuileSud = tuileMap[y + 1][x];
@@ -229,7 +203,6 @@ namespace Worldbuilder
             }
 
             Console.WriteLine("fin de l'attaque");
-            afficherMap();
 
         }//FIN ATTAQUER
 
@@ -237,46 +210,46 @@ namespace Worldbuilder
     }
 
     [Serializable]
-    public class Tile
+    public class Tuile
     {
-        public GameObject tilehandle;
-        public Renderer tilerenderer;
-        public string type;
-        public Zone zone;
-        public Vector3 relpos;
-        public bool interactable;
-        public bool reinforced;
-        public int hp;
-        public int armor;
-        public Vector3 worldpos;
-        public Pion pion;
-        public ZoneEffet zoneEffet;
-        public int posX, posY;
+        private GameObject tuileHandle;
+        private Renderer tuileRenderer;
+        private string type;
+        private Zone zone;
+        private Vector3 realPosition;
+        private bool interactable;
+        private bool reinforced;
+        private int hp;
+        private int armor;
+        private Vector3 worldPosition;
+        private Pion pion;
+        private ZoneEffet zoneEffet;
+        private int posX, posY;
 
-        public Tile(string typetile, Zone z, GameObject hand, float i, float y, float x)
+        public Tuile(string typetile, Zone z, GameObject hand, float i, float y, float x)
         {
             
             type = typetile;
             zone = z;
-            tilehandle = hand;
-            relpos = new Vector3(i, y, x);
-            tilehandle.transform.parent = zone.zonepoint.transform;
-            tilehandle.transform.localPosition = relpos;
-            tilerenderer = tilehandle.GetComponent<Renderer>();
+            tuileHandle = hand;
+            realPosition = new Vector3(i, y, x);
+            tuileHandle.transform.parent = zone.getZonePoint().transform;
+            tuileHandle.transform.localPosition = realPosition;
+            tuileRenderer = tuileHandle.GetComponent<Renderer>();
         }
 
-        public List<Tile> getsouroundingTiles()
+        public List<Tuile> getTuileAutour()
         {
-            List<Tile> temp = new List<Tile>();
-            for (int x = (int)this.worldpos.x - 1; x <= (int)this.worldpos.x + 1; x++) 
+            List<Tuile> temp = new List<Tuile>();
+            for (int x = (int)this.worldPosition.x - 1; x <= (int)this.worldPosition.x + 1; x++) 
             {
-                    for (int y = (int)this.worldpos.z-1; y <= (int)this.worldpos.z+1; y++) 
+                for (int y = (int)this.worldPosition.z - 1; y <= (int)this.worldPosition.z + 1; y++) 
                     {
-                        if (x >= 0 && y >= 0 && x < zone.map.tileMap.Count && y < zone.map.tileMap[1].Count) 
+                        if (x >= 0 && y >= 0 && x < Map.tuileMap.Count && y < Map.tuileMap[1].Count) 
                         {
-                            if(x!=(int)this.worldpos.x || y!=(int)this.worldpos.z)
+                            if (x != (int)this.worldPosition.x || y != (int)this.worldPosition.z)
                             {
-                                temp.Add(zone.map.tileMap[x][y]);
+                                temp.Add(Map.tuileMap[x][y]);
                             }
                         }
                     }
@@ -284,12 +257,12 @@ namespace Worldbuilder
             return temp;
         }
 
-        public Tile(string type)
+        public Tuile(string type)
         {
             this.type = type;
         }
 
-        public Tile(int x, int y, string type)
+        public Tuile(int x, int y, string type)
         {
             this.posX = x;
             this.posY = y;
@@ -372,8 +345,8 @@ namespace Worldbuilder
         private int sens;
         private Creature creature;
         private bool estHero = false;
-        public Vector2 worldpos;
-        public string type;
+        private Vector2 worldpos;
+        private string type;
 
         public Pion pions(bool estVisible)
         {
@@ -457,7 +430,7 @@ namespace Worldbuilder
     }
 
     [Serializable]
-    class Tombeau
+    public class Tombeau
     {
         /*la position du tombeau depend de la crypte */
         private int posX;
@@ -478,17 +451,13 @@ namespace Worldbuilder
     [Serializable]
     public class Zone
     {
-        public string type;
-        public List<List<Tile>> tilemap;
-        public GameObject zonepoint;
-        public map map;
+        private string type;
+        private GameObject zonePoint;
 
-        public Zone(string x, GameObject y, map m)
+        public Zone(string x, GameObject y)
         {
             type = x;
-            zonepoint = y;
-            tilemap = new List<List<Tile>>();
-            map = m;
+            zonePoint = y;
         }
 
 
@@ -501,15 +470,21 @@ namespace Worldbuilder
             string fullpath = path + mapname + @"tile\";
             return fullpath;
         }
+
+        public GameObject getZonePoint()
+        {
+            return this.zonePoint;
+        }
+
     }
 
     [Serializable]
-    class Crypte : Zone
+    public class Crypte : Zone
     {
         private Tombeau tombeau;
         //La dimension de la crypte doit etre imposé avant
-        public Crypte(string x, GameObject m, map y)
-            : base(x, m, y)
+        public Crypte(string type, GameObject gameObject)
+            : base(type, gameObject)
         {
             tombeau = new Tombeau();
         }
@@ -544,10 +519,10 @@ namespace Worldbuilder
     }
 
     [Serializable]
-    class Arene : Zone
+    public class Arene : Zone
     {
-        public Arene(string x, GameObject m, map y)
-            : base(x, m, y)
+        public Arene(string type, GameObject gameObject)
+            : base(type, gameObject)
         {
         }
     }
