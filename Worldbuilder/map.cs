@@ -5,6 +5,7 @@ using System.IO;
 using UnityEngine;
 using System.Linq;
 using System.Net;
+using System.Text;
 
 namespace Worldbuilder
 {
@@ -236,34 +237,6 @@ namespace Worldbuilder
     }
 
     [Serializable]
-    public class Zone
-    {
-        public string type;
-        public List<List<Tile>> tilemap;
-        public GameObject zonepoint;
-        public map map;
-
-        public Zone(string x, GameObject y, map m)
-        {
-            type = x;
-            zonepoint = y;
-            tilemap = new List<List<Tile>>();
-            map = m;
-        }
-
-        
-
-        public string getzoneimagepath(string x, string y, string z)
-        {
-            string path = x;
-            string zonename = y;
-            string mapname = z;
-            string fullpath = path + mapname + @"tile\";
-            return fullpath;
-        }
-    }
-
-    [Serializable]
     public class Tile
     {
         public GameObject tilehandle;
@@ -276,8 +249,9 @@ namespace Worldbuilder
         public int hp;
         public int armor;
         public Vector3 worldpos;
-        public Pion Pion;
+        public Pion pion;
         public ZoneEffet zoneEffet;
+        public int posX, posY;
 
         public Tile(string typetile, Zone z, GameObject hand, float i, float y, float x)
         {
@@ -310,9 +284,81 @@ namespace Worldbuilder
             return temp;
         }
 
-        void Awake()
+        public Tile(string type)
         {
-            
+            this.type = type;
+        }
+
+        public Tile(int x, int y, string type)
+        {
+            this.posX = x;
+            this.posY = y;
+            this.type = type;
+        }
+
+        public void ajouterPion(Pion unPion)
+        {
+            this.pion = unPion;
+        }
+
+        public void ajouterCoordonne(int x, int y)
+        {
+            posX = x;
+            posY = y;
+        }
+
+        public void ajouterZoneEffet(ZoneEffet uneZoneEffet)
+        {
+            this.zoneEffet = uneZoneEffet;
+        }
+
+        public void supprimerZoneEffet()
+        {
+            this.zoneEffet = null;
+        }
+
+        public void supprimerPion()
+        {
+            this.pion = null;
+        }
+
+        public void setType(string type)
+        {
+            this.type = type;
+        }
+
+        public string getType()
+        {
+            return this.type;
+        }
+
+        public void setPosY(int y)
+        {
+            this.posY = y;
+        }
+
+        public int getPosY()
+        {
+            return this.posY;
+        }
+
+        public void setPosX(int x)
+        {
+            this.posX = x;
+        }
+
+        public int getPosX()
+        {
+            return this.posX;
+        }
+        public void setPion(Pion pion)
+        {
+            this.pion = pion;
+        }
+
+        public Pion getPion()
+        {
+            return this.pion;
         }
     }
 
@@ -329,13 +375,10 @@ namespace Worldbuilder
         public Vector2 worldpos;
         public string type;
 
-        public Pion pions(string t, bool estVisible, int x, int y)
+        public Pion pions(bool estVisible)
         {
             estInvoque = true;
             this.estVisible = estVisible;
-            type = t;
-            posX = x;
-            posY = y;
             return this;
         }
 
@@ -411,5 +454,101 @@ namespace Worldbuilder
 
         
         
+    }
+
+    [Serializable]
+    class Tombeau
+    {
+        /*la position du tombeau depend de la crypte */
+        private int posX;
+        private int posY;
+
+        public Tombeau() { }
+
+        /*ce constructeur vient avec la crypte*/
+        public Tombeau(int x, int y)
+        {
+            this.posX = x;
+            this.posY = y;
+        }
+
+    }
+
+    //zone family
+    [Serializable]
+    public class Zone
+    {
+        public string type;
+        public List<List<Tile>> tilemap;
+        public GameObject zonepoint;
+        public map map;
+
+        public Zone(string x, GameObject y, map m)
+        {
+            type = x;
+            zonepoint = y;
+            tilemap = new List<List<Tile>>();
+            map = m;
+        }
+
+
+
+        public string getzoneimagepath(string x, string y, string z)
+        {
+            string path = x;
+            string zonename = y;
+            string mapname = z;
+            string fullpath = path + mapname + @"tile\";
+            return fullpath;
+        }
+    }
+
+    [Serializable]
+    class Crypte : Zone
+    {
+        private Tombeau tombeau;
+        //La dimension de la crypte doit etre imposé avant
+        public Crypte(string x, GameObject m, map y)
+            : base(x, m, y)
+        {
+            tombeau = new Tombeau();
+        }
+
+        /*suivant la direction choisit on deplace le tout d'une case; on vérifie qu'aucune case ne touche un mur*/
+        public void deplacerCrypte(int direction)
+        {
+            if (direction == 1)
+            {
+                Console.WriteLine("La crypte s'est déplacé vers le nord");
+            }
+            else if (direction == 2)
+            {
+                Console.WriteLine("La crypte s'est déplacé vers le sud");
+            }
+            else if (direction == 3)
+            {
+                Console.WriteLine("La crypte s'est déplacé vers l'est");
+            }
+            else if (direction == 4)
+            {
+                Console.WriteLine("La crypte s'est déplacé vers l'ouest");
+            }
+        }
+
+        public Tombeau getTombeau()
+        {
+            return this.tombeau;
+        }
+
+
+    }
+
+    [Serializable]
+    class Arene : Zone
+    {
+        public Arene(string x, GameObject m, map y)
+            : base(x, m, y)
+        {
+        }
     }
 }
