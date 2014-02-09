@@ -32,37 +32,40 @@ namespace Worldbuilder
     {
 
 
-        public string mapname;
-        public static string mapsfilespath = Application.dataPath+@"\Textures\Maps\";
-        public string mappath;
-        public string mapfilepath;
-        public List<List<Zone>> zonemap;
-        public List<List<System.Drawing.Color>> tempzone;
-        public List<List<Tile>> tilemap;
+        public string mapName;
+        public static string mapsFilesPath = Application.dataPath+@"\Textures\Maps\";
+        public string mapPath;
+        public string mapFilePath;
+        public List<List<Zone>> zoneMap;
+        public List<List<System.Drawing.Color>> zoneColorMap;
+        public List<List<Tile>> tileMap;
+        public List<Tile> TileMapRow;
         public env environement;
+        public int ndx;
+        public int nby;
 
 
 
         public map(string x, env y)
         {
-            mapname = x;
+            mapName = x;
             environement = y;
-            zonemap = new List<List<Zone>>();
-            tempzone = new List<List<System.Drawing.Color>>();
-            tilemap = new List<List<Tile>>();
+            zoneMap = new List<List<Zone>>();
+            zoneColorMap = new List<List<System.Drawing.Color>>();
+            tileMap = new List<List<Tile>>();
         }
 
         public string getmappath (string x)
         {
-            mapname = x;
-            mappath = mapsfilespath + mapname + @"\";
-            if (Directory.Exists(mappath))
+            mapName = x;
+            mapPath = mapsFilesPath + mapName + @"\";
+            if (Directory.Exists(mapPath))
             {
-                mapfilepath = mappath + mapname + ".png";
-                if (File.Exists(mapfilepath))
+                mapFilePath = mapPath + mapName + ".png";
+                if (File.Exists(mapFilePath))
                 {
                     //Debug.Log("found repertory " + mapname);
-                    return mapfilepath;
+                    return mapFilePath;
                 }
                 else
                 {
@@ -79,15 +82,15 @@ namespace Worldbuilder
 
         public string getzonedeftxt(string x)
         {
-            mapname = x;
-            mappath = mapsfilespath + mapname + @"\";
-            if (Directory.Exists(mappath))
+            mapName = x;
+            mapPath = mapsFilesPath + mapName + @"\";
+            if (Directory.Exists(mapPath))
             {
-                mapfilepath = mappath + mapname + ".txt";
-                if (File.Exists(mapfilepath))
+                mapFilePath = mapPath + mapName + ".txt";
+                if (File.Exists(mapFilePath))
                 {
                     //Debug.Log("file found " + mapname + ".txt.");
-                    return mapfilepath;
+                    return mapFilePath;
                 }
                 else
                 {
@@ -104,11 +107,11 @@ namespace Worldbuilder
 
         public void generatemaptilemap()
         {
-            foreach (List<Zone> list in this.zonemap)
+            foreach (List<Zone> list in this.zoneMap)
             {
                 for (int i = 0; i < 16; i++)
                 {
-                    this.tilemap.Add(this.gettilemaprow(i, list));
+                    this.tileMap.Add(this.gettilemaprow(i, list));
                 }
             }
         }
@@ -133,13 +136,13 @@ namespace Worldbuilder
 
         public void tileCheckForEmptyToWall ()
         {
-            for (int i = 0; i < tilemap.Count; i++)
+            for (int i = 0; i < tileMap.Count; i++)
             {
-                for (int j = 0; j < tilemap[i].Count; j++)
+                for (int j = 0; j < tileMap[i].Count; j++)
                 {
-                    if (tilemap[i][j].type == "openfloorTile")
+                    if (tileMap[i][j].type == "openfloorTile")
                     {
-                        List<Tile> temp = tilemap[i][j].getsouroundingTiles();
+                        List<Tile> temp = tileMap[i][j].getsouroundingTiles();
                         for (int k = 0; k < temp.Count; k++)
                         {
                             if (temp[k].type == "empty")
@@ -155,6 +158,80 @@ namespace Worldbuilder
                 }
             }
         }
+
+        public List<Pion> pionAdjacent(Pion pion)
+        {
+            int x = Pion.getPosX();
+            int y = Pion.getPosY();
+            List<Pion> pionAdjacent = new List<Pion>();
+            Tuile tuileNord = tuileMap[y - 1][x];
+            Tuile tuileSud = tuileMap[y + 1][x];
+            Tuile tuileEst = tuileMap[y][x + 1];
+            Tuile tuileOuest = tuileMap[y][x - 1];
+            string typeNord = tuileNord.getType();
+            string typeSud = tuileSud.getType();
+            string typeEst = tuileEst.getType();
+            string typeOuest = tuileOuest.getType();
+            /*
+            Console.WriteLine("Au nord il y a : une tuile type " + typeNord);
+            Console.WriteLine("Au sud il y a : une tuile type " + typeSud);
+            Console.WriteLine("A l'est il y a : une tuile type " + typeEst);
+            Console.WriteLine("A l'ouest il y a : une tuile type " + typeOuest);
+             * */
+            if (typeNord == "pion")
+            {
+                pionAdjacent.Add(tuileNord.getPion());
+            }
+            if (typeSud == "pion")
+            {
+                pionAdjacent.Add(tuileSud.getPion());
+            }
+            if (typeEst == "pion")
+            {
+                pionAdjacent.Add(tuileEst.getPion());
+            }
+            if (typeOuest == "pion")
+            {
+                pionAdjacent.Add(tuileOuest.getPion());
+            }
+
+            Console.WriteLine("Pion adjacent : " + pionAdjacent.Count());
+
+            return pionAdjacent;
+
+        }//FIN ADJACENT
+
+        public void attaquer(int direction, Pion pion)
+        {
+            int x = pion.getPosX();
+            int y = pion.getPosY();
+            Console.WriteLine("x : " + x + " y : " + y);
+            if (direction == 1)
+            {
+                Console.WriteLine("A l'attaque ! nord " + tuileMap[y - 1][x].getType());
+                tuileMap[y - 1][x] = new Tuile(x, y - 1, "empty");
+            }
+            else if (direction == 2)
+            {
+                Console.WriteLine("A l'attaque ! sud " + tuileMap[y + 1][x].getType());
+                tuileMap[y + 1][x] = new Tuile(x, y + 1, "empty");
+            }
+            else if (direction == 3)
+            {
+                Console.WriteLine("A l'attaque ! est " + tuileMap[y][x + 1].getType());
+                tuileMap[y][x + 1] = new Tuile(x + 1, y, "empty");
+            }
+            else if (direction == 4)
+            {
+                Console.WriteLine("A l'attaque ! ouest " + tuileMap[y][x - 1].getType());
+                tuileMap[y][x - 1] = new Tuile(x - 1, y, "empty");
+            }
+
+            Console.WriteLine("fin de l'attaque");
+            afficherMap();
+
+        }//FIN ATTAQUER
+
 
     }
 
@@ -199,6 +276,8 @@ namespace Worldbuilder
         public int hp;
         public int armor;
         public Vector3 worldpos;
+        public Pion Pion;
+        public ZoneEffet zoneEffet;
 
         public Tile(string typetile, Zone z, GameObject hand, float i, float y, float x)
         {
@@ -219,11 +298,11 @@ namespace Worldbuilder
             {
                     for (int y = (int)this.worldpos.z-1; y <= (int)this.worldpos.z+1; y++) 
                     {
-                        if (x >= 0 && y >= 0 && x < zone.map.tilemap.Count && y < zone.map.tilemap[1].Count) 
+                        if (x >= 0 && y >= 0 && x < zone.map.tileMap.Count && y < zone.map.tileMap[1].Count) 
                         {
                             if(x!=(int)this.worldpos.x || y!=(int)this.worldpos.z)
                             {
-                                temp.Add(zone.map.tilemap[x][y]);
+                                temp.Add(zone.map.tileMap[x][y]);
                             }
                         }
                     }
@@ -235,5 +314,102 @@ namespace Worldbuilder
         {
             
         }
+    }
+
+    [Serializable]
+    public class Pion
+    {
+        private int posX;
+        private int posY;
+        private bool estInvoque;
+        private bool estVisible;
+        private int sens;
+        private Creature creature;
+        private bool estHero = false;
+        public Vector2 worldpos;
+        public string type;
+
+        public Pion pions(string t, bool estVisible, int x, int y)
+        {
+            estInvoque = true;
+            this.estVisible = estVisible;
+            type = t;
+            posX = x;
+            posY = y;
+            return this;
+        }
+
+        public void setEstHero(bool estHero)
+        {
+            this.estHero = estHero;
+        }
+
+        public bool getEstHero()
+        {
+            return this.estHero;
+        }
+
+        public void setPosX(int x)
+        {
+            this.posX = x;
+        }
+
+        public int getPosX()
+        {
+            return this.posX;
+        }
+
+        public void setPosY(int y)
+        {
+            this.posY = y;
+        }
+
+        public int getPosY()
+        {
+            return this.posY;
+        }
+
+        public void setCreature(Creature creature)
+        {
+            this.creature = creature;
+        }
+
+        public Creature getCreature()
+        {
+            return this.creature;
+        }
+
+        public void setEstInvoque(bool b)
+        {
+            this.estInvoque = b;
+        }
+
+        public void setEstVisible(bool b)
+        {
+            this.estVisible = b;
+        }
+
+        public bool getEstVisible()
+        {
+            return this.estVisible;
+        }
+
+        public bool getEstInvoque()
+        {
+            return this.estInvoque;
+        }
+
+        public void setSens(int sens)
+        {
+            this.sens = sens;
+        }
+
+        public int getSens()
+        {
+            return this.sens;
+        }
+
+        
+        
     }
 }

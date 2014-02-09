@@ -47,8 +47,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="environement.cs" />
     <Compile Include="map.cs" />
-    <Compile Include="pion.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="tools.cs" />
   </ItemGroup>
