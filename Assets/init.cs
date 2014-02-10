@@ -21,7 +21,7 @@ public class Init : MonoBehaviour
         Environnement environnement = new Environnement();
         
         //instanciating map with it's parameters
-        Map map = new Map("entrance", environnement);
+        Map map = new Map("1v1", environnement);
         //Debug.Log(map.mapname);
 
         //getting global map path
@@ -56,55 +56,93 @@ public class Init : MonoBehaviour
             for (int i = 0; i < (map.ZoneColorMap.Count) + 2; i++)
             {
                 GameObject zonepos = Instantiate(Resources.Load("map/zonepointer")) as GameObject;
-                zonepos.transform.position = new Vector3(((i * 16) - 16), 0, -16);
+                zonepos.transform.position = new Vector3((i * 16) - 16, 0, - 16);
                 Zone zone = new Zone("border", zonepos);
                 row.Add(zone);
             }
             map.ZoneMap.Add(row);
             for (int i = 0; i < map.ZoneColorMap.Count; i++)
             {
-                row = new List<Zone>();
-
-                if (true)
+                if (map.ZoneColorMap.Count > 1)
                 {
-                    GameObject zonePos = Instantiate(Resources.Load("map/zonepointer")) as GameObject;
-                    zonePos.transform.position = new Vector3(-16, 0, i * 16);
-                    Zone zone = new Zone("border", zonePos);
-                    row.Add(zone);
-                }
-                for (int j = 0; j < map.ZoneColorMap[i].Count; j++)
-                {
-                    //Debug.Log("instanciating zones");
-
-                    GameObject zonepos = Instantiate(Resources.Load("map/zonepointer")) as GameObject;
-                    zonepos.transform.position = new Vector3(j * 16, 0, i * 16);
-                    if (map.ZoneColorMap[j][i].A == 255)
+                    row = new List<Zone>();
                     {
-                        string tempcolor = Tools.colorToString(map.ZoneColorMap[j][i]);
-                        zoneNom = Tools.getNomZone(mapParts, tempcolor);
-                        Zone zone = new Zone(zoneNom, zonepos);
+                        GameObject zonePos = Instantiate(Resources.Load("map/zonepointer")) as GameObject;
+                        zonePos.transform.position = new Vector3(-16, 0, i * 16);
+                        Zone zone = new Zone("border", zonePos);
                         row.Add(zone);
                     }
-                    else
+                    for (int j = 0; j < map.ZoneColorMap[i].Count; j++)
                     {
-                        Zone zone = new Zone("empty", zonepos);
+                        //Debug.Log("instanciating zones");
+                        {
+                            GameObject zonepos = Instantiate(Resources.Load("map/zonepointer")) as GameObject;
+                            zonepos.transform.position = new Vector3(i * 16, 0, j * 16);
+                            if (map.ZoneColorMap[i][j].A == 255)
+                            {
+                                string tempcolor = Tools.colorToString(map.ZoneColorMap[i][j]);
+                                zoneNom = Tools.getNomZone(mapParts, tempcolor);
+                                Zone zone = new Zone(zoneNom, zonepos);
+                                row.Add(zone);
+                            }
+                            else
+                            {
+                                Zone zone = new Zone("empty", zonepos);
+                                row.Add(zone);
+                            }
+                        }
+                    }
+                    {
+                        GameObject zonepos = Instantiate(Resources.Load("map/zonepointer")) as GameObject;
+                        zonepos.transform.position = new Vector3(map.ZoneColorMap.Count * 16, 0, i * 16);
+                        Zone zone = new Zone("border", zonepos);
                         row.Add(zone);
                     }
+                    map.ZoneMap.Add(row);
                 }
-                if (true)
+                else
                 {
-                    GameObject zonepos = Instantiate(Resources.Load("map/zonepointer")) as GameObject;
-                    zonepos.transform.position = new Vector3((map.ZoneColorMap.Count)*16, 0, i * 16);
-                    Zone zone = new Zone("border", zonepos);
-                    row.Add(zone);
+                    row = new List<Zone>();
+                    for (int j = 0; j < map.ZoneColorMap[i].Count; j++)
+                    {
+                        {
+                            GameObject zonePos = Instantiate(Resources.Load("map/zonepointer")) as GameObject;
+                            zonePos.transform.position = new Vector3((i*16)-16, 0, j * 16);
+                            Zone zone = new Zone("border", zonePos);
+                            row.Add(zone);
+                        }
+                        //Debug.Log("instanciating zones");
+                        {
+                            GameObject zonepos = Instantiate(Resources.Load("map/zonepointer")) as GameObject;
+                            zonepos.transform.position = new Vector3(i * 16, 0, j * 16);
+                            if (map.ZoneColorMap[i][j].A == 255)
+                            {
+                                string tempcolor = Tools.colorToString(map.ZoneColorMap[i][j]);
+                                zoneNom = Tools.getNomZone(mapParts, tempcolor);
+                                Zone zone = new Zone(zoneNom, zonepos);
+                                row.Add(zone);
+                            }
+                            else
+                            {
+                                Zone zone = new Zone("empty", zonepos);
+                                row.Add(zone);
+                            }
+                        }
+                        {
+                            GameObject zonepos = Instantiate(Resources.Load("map/zonepointer")) as GameObject;
+                            zonepos.transform.position = new Vector3(map.ZoneColorMap.Count * 16, 0, j * 16);
+                            Zone zone = new Zone("border", zonepos);
+                            row.Add(zone);
+                        }
+                    }
+                    map.ZoneMap.Add(row);
                 }
-                map.ZoneMap.Add(row);
             }
             row = new List<Zone>();
             for (int o = 0; o < (map.ZoneColorMap.Count) + 2; o++)
             {
                 GameObject zonepos = Instantiate(Resources.Load("map/zonepointer")) as GameObject;
-                zonepos.transform.position = new Vector3(((o * 16) - 16), 0, (map.ZoneColorMap.Count * 16));
+                zonepos.transform.position = new Vector3(((o * 16) - 16), 0, (map.ZoneColorMap[0].Count * 16));
                 Zone zone = new Zone("border", zonepos);
                 row.Add(zone);
             }
@@ -119,7 +157,7 @@ public class Init : MonoBehaviour
         {
             for (int j = 0; j < map.ZoneMap[i].Count; j++)
             {
-                if (map.ZoneMap[j][i].Type == "empty")
+                if (map.ZoneMap[i][j].Type == "empty")
                 {
                     for (int k = 0; k < 16; k++)
                     {
@@ -128,7 +166,7 @@ public class Init : MonoBehaviour
                         {
                             GameObject tileHolder = Instantiate(Resources.Load("tile/TileHolder")) as GameObject;
                             Renderer rnd = tileHolder.GetComponent<Renderer>();
-                            Tuile tile = new Tuile("empty", map.ZoneMap[j][i], tileHolder, l, 0, k);
+                            Tuile tile = new Tuile("empty", map.ZoneMap[i][j], tileHolder, l, 0, k);
                             rnd.material = tileHolder.GetComponent<TileHolder>().mats[0];
                             tileHolder.GetComponent<TileHolder>().tile = tile;
                             tileHolder.tag = "empty";
@@ -138,7 +176,7 @@ public class Init : MonoBehaviour
                         Map.tuileMap.Add(tilerow);
                     }
                 }
-                else if (map.ZoneMap[j][i].Type == "border")
+                else if (map.ZoneMap[i][j].Type == "border")
                 {
                     for (int k = 0; k < 16; k++)
                     {
@@ -147,11 +185,11 @@ public class Init : MonoBehaviour
                         {
                             GameObject tileHolder = Instantiate(Resources.Load("tile/TileHolder")) as GameObject;
                             Renderer rnd = tileHolder.GetComponent<Renderer>();
-                            Tuile tile = new Tuile("border", map.ZoneMap[j][i], tileHolder, l, 0, k);
+                            Tuile tile = new Tuile("border", map.ZoneMap[i][j], tileHolder, l, 0, k);
                             rnd.material = tileHolder.GetComponent<TileHolder>().mats[0];
                             tileHolder.GetComponent<TileHolder>().tile = tile;
                             tileHolder.tag = "border";
-                            tile.WorldPosition = new Vector3((k + (16 * j)), 0, l + (16 * i));
+                            tile.WorldPosition = new Vector3((k + (16 * i)), 0, l + (16 * j));
                             tilerow.Add(tile);
                         }
                         Map.tuileMap.Add(tilerow);
@@ -160,13 +198,13 @@ public class Init : MonoBehaviour
                 else
                 {
                     //Debug.Log("grabbing file directory");
-                    string imagepath = map.ZoneMap[j][i].getzoneimagepath(map.ZoneMap[j][i].Type, map.MapName);
+                    string imagepath = map.ZoneMap[i][j].getzoneimagepath(map.ZoneMap[i][j].Type, map.MapName);
                     //Debug.Log(imagepath);
 
                     //Debug.Log("grabbing tile color list");
                     Debug.Log("imagepath : " + imagepath);
-                    Debug.Log("zonemap type : " + map.ZoneMap[j][i].Type);
-                    List<List<System.Drawing.Color>> tilescolor = Tools.getColor(imagepath + map.ZoneMap[j][i].Type + ".png");
+                    Debug.Log("zonemap type : " + map.ZoneMap[i][j].Type);
+                    List<List<System.Drawing.Color>> tilescolor = Tools.getColor(imagepath + map.ZoneMap[i][j].Type + ".png");
 
 
 
@@ -187,40 +225,40 @@ public class Init : MonoBehaviour
                                 string tilemame = Tools.getNomZone(tilref, Tools.colorToString(tilescolor[l][k]));
                                 if (tilemame == "openfloorTile")
                                 {
-                                    Tuile tile = new Tuile("openfloorTile", map.ZoneMap[j][i], tileHolder, l, -1, k);
+                                    Tuile tile = new Tuile("openfloorTile", map.ZoneMap[i][j], tileHolder, l, -1, k);
                                     rnd.material = tileHolder.GetComponent<TileHolder>().mats[2];
                                     tileHolder.GetComponent<TileHolder>().tile = tile;
                                     tileHolder.tag = "floor";
-                                    tile.WorldPosition = new Vector3((k + (16 * j)), 0, l + (16 * i));
+                                    tile.WorldPosition = new Vector3((k + (16 * i)), 0, l + (16 * j));
                                     tilerow.Add(tile);
                                 }
                                 else if (tilemame == "wallTile")
                                 {
-                                    Tuile tile = new Tuile("wallTile", map.ZoneMap[j][i], tileHolder, l, 0, k);
+                                    Tuile tile = new Tuile("wallTile", map.ZoneMap[i][j], tileHolder, l, 0, k);
                                     rnd.material = tileHolder.GetComponent<TileHolder>().mats[2];
                                     tileHolder.GetComponent<TileHolder>().tile = tile;
                                     tileHolder.tag = "wall";
-                                    tile.WorldPosition = new Vector3((k + (16 * j)), 0, l + (16 * i));
+                                    tile.WorldPosition = new Vector3((k + (16 * i)), 0, l + (16 * j));
                                     tilerow.Add(tile);
 
                                 }
                                 else if (tilemame == "collumn")
                                 {
-                                    Tuile tile = new Tuile("collumn", map.ZoneMap[j][i], tileHolder, l, 0, k);
+                                    Tuile tile = new Tuile("collumn", map.ZoneMap[i][j], tileHolder, l, 0, k);
                                     rnd.material = tileHolder.GetComponent<TileHolder>().mats[2];
                                     tileHolder.GetComponent<TileHolder>().tile = tile;
                                     tileHolder.tag = "wall";
-                                    tile.WorldPosition = new Vector3((k + (16 * j)), 0, l + (16 * i));
+                                    tile.WorldPosition = new Vector3((k + (16 * i)), 0, l + (16 * j));
                                     tilerow.Add(tile);
                                 }
                             }
                             else
                             {
-                                Tuile tile = new Tuile("empty", map.ZoneMap[j][i], tileHolder, l, 0, k);
+                                Tuile tile = new Tuile("empty", map.ZoneMap[i][j], tileHolder, l, 0, k);
                                 rnd.material = tileHolder.GetComponent<TileHolder>().mats[0];
                                 tileHolder.GetComponent<TileHolder>().tile = tile;
                                 tileHolder.tag = "empty";
-                                tile.WorldPosition = new Vector3((k + (16 * j)), 0, l + (16 * i));
+                                tile.WorldPosition = new Vector3((k + (16 * i)), 0, l + (16 * j));
                                 tilerow.Add(tile);
                             }
                         }

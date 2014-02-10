@@ -51,9 +51,12 @@
      <Compile Include="Assets\camera.cs" />
      <Compile Include="Assets\menu.cs" />
      <Compile Include="Assets\zonepointer.cs" />
-     <None Include="Assets\Textures\Maps\entrancetile\Tiles.txt" />
-     <None Include="Assets\Textures\Maps\entrance\entrance.txt" />
-     <None Include="Assets\Textures\Maps\entrance.txt" />
+     <None Include="Assets\Textures\Maps\4v4.txt" />
+     <None Include="Assets\Textures\Maps\1v1tile\Tiles.txt" />
+     <None Include="Assets\Textures\Maps\4v4tile\Tiles.txt" />
+     <None Include="Assets\Textures\Maps\1v1\1v1.txt" />
+     <None Include="Assets\Textures\Maps\4v4\4v4.txt" />
+     <None Include="Assets\Textures\Maps\1v1.txt" />
  <Reference Include="System.Drawing">
  <HintPath>Assets\Resources\Assembly\System.Drawing.dll</HintPath>
  </Reference>
