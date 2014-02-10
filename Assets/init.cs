@@ -160,7 +160,7 @@ public class Init : MonoBehaviour
                 else
                 {
                     //Debug.Log("grabbing file directory");
-                    string imagepath = map.ZoneMap[j][i].getzoneimagepath(map.MapFilePath, map.ZoneMap[j][i].Type, map.MapName);
+                    string imagepath = map.ZoneMap[j][i].getzoneimagepath(map.ZoneMap[j][i].Type, map.MapName);
                     //Debug.Log(imagepath);
 
                     //Debug.Log("grabbing tile color list");

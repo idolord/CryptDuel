@@ -12,7 +12,9 @@ namespace Worldbuilder
         public static List<List<System.Drawing.Color>> getColor(string path)
         {
             //Debug.Log("getting zonecolor form map image "+path);
-            Bitmap zoneMapImage = new Bitmap(path);
+
+            Bitmap zoneMapImage;
+            zoneMapImage = new Bitmap(path);
             List<List<System.Drawing.Color>> zoneListe = new List<List<System.Drawing.Color>>();
             List<System.Drawing.Color> row = new List<System.Drawing.Color>();
             System.Drawing.Color pixelColor = new System.Drawing.Color();
@@ -29,6 +31,7 @@ namespace Worldbuilder
                 }
                 zoneListe.Add(row);
             }
+            zoneMapImage.Dispose();
             return zoneListe;
         }
 

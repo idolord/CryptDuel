@@ -98,7 +98,7 @@ public class TileHolder : MonoBehaviour
         tile.Type = "wallTile";
         tile.TuileHandle.tag = "wall";
         tile.TuileRenderer.material = mats[2];
-        Destroy(bosc);
+        this.Destroy(bosc);
     }
 
     void changetowallborder()
@@ -106,7 +106,7 @@ public class TileHolder : MonoBehaviour
         tile.Type = "wallTile";
         tile.TuileHandle.tag = "border";
         tile.TuileRenderer.material = mats[2];
-        Destroy(bosc);
+        this.Destroy(bosc);
     }
 
     void Start()

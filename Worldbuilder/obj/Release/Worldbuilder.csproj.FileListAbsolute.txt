@@ -1,8 +1,4 @@
-C:\Users\Sakki\Documents\GitHub\CryptDuel\Worldbuilder\bin\Release\Worldbuilder.dll
-C:\Users\Sakki\Documents\GitHub\CryptDuel\Worldbuilder\bin\Release\Worldbuilder.pdb
-C:\Users\Sakki\Documents\GitHub\CryptDuel\Worldbuilder\bin\Release\Mono.Cecil.dll
-C:\Users\Sakki\Documents\GitHub\CryptDuel\Worldbuilder\bin\Release\nunit.framework.dll
-C:\Users\Sakki\Documents\GitHub\CryptDuel\Worldbuilder\bin\Release\Unity.DataContract.dll
-C:\Users\Sakki\Documents\GitHub\CryptDuel\Worldbuilder\bin\Release\ICSharpCode.NRefactory.dll
-C:\Users\Sakki\Documents\GitHub\CryptDuel\Worldbuilder\obj\Release\Worldbuilder.dll
-C:\Users\Sakki\Documents\GitHub\CryptDuel\Worldbuilder\obj\Release\Worldbuilder.pdb
+C:\Users\idolord\Documents\GitHub\CryptDuel\Worldbuilder\bin\Release\Worldbuilder.dll
+C:\Users\idolord\Documents\GitHub\CryptDuel\Worldbuilder\bin\Release\Worldbuilder.pdb
+C:\Users\idolord\Documents\GitHub\CryptDuel\Worldbuilder\obj\Release\Worldbuilder.dll
+C:\Users\idolord\Documents\GitHub\CryptDuel\Worldbuilder\obj\Release\Worldbuilder.pdb

@@ -39,18 +39,18 @@
 	<Reference Include="System.Core" />
 	<Reference Include="System.Xml.Linq" />
 	<Reference Include="UnityEngine">
-	  <HintPath>E:/Program Files (x86)/Unity/Editor/Data/Managed/UnityEngine.dll</HintPath>
+	  <HintPath>C:/Program Files (x86)/Unity/Editor/Data/Managed/UnityEngine.dll</HintPath>
 	</Reference>
 	<Reference Include="UnityEditor">
-	  <HintPath>E:/Program Files (x86)/Unity/Editor/Data/Managed/UnityEditor.dll</HintPath>
+	  <HintPath>C:/Program Files (x86)/Unity/Editor/Data/Managed/UnityEditor.dll</HintPath>
 	</Reference>
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\Init.cs" />
-     <Compile Include="Assets\Menu.cs" />
      <Compile Include="Assets\TileHolder.cs" />
-     <Compile Include="Assets\ZonePointer.cs" />
      <Compile Include="Assets\camera.cs" />
+     <Compile Include="Assets\menu.cs" />
+     <Compile Include="Assets\zonepointer.cs" />
      <None Include="Assets\Textures\Maps\entrancetile\Tiles.txt" />
      <None Include="Assets\Textures\Maps\entrance\entrance.txt" />
      <None Include="Assets\Textures\Maps\entrance.txt" />

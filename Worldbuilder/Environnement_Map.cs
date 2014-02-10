@@ -39,7 +39,7 @@ namespace Worldbuilder
 
 
         private string mapName;
-        public static string mapsFilesPath = Application.dataPath + @"\Textures\Maps\";
+        public static string mapsFilesPath = Application.dataPath + @"/Textures/Maps/";
         private string mapPath;
         private string mapFilePath;
         private List<List<Zone>> zoneMap;
@@ -63,7 +63,7 @@ namespace Worldbuilder
         public string getCheminMap (string x)
         {
             mapName = x;
-            mapPath = mapsFilesPath + mapName + @"\";
+            mapPath = mapsFilesPath + mapName + @"/";
             if (Directory.Exists(mapPath))
             {
                 mapFilePath = mapPath + mapName + ".png";
@@ -88,7 +88,7 @@ namespace Worldbuilder
         public string getZoneDefTXT(string x)
         {
             mapName = x;
-            mapPath = mapsFilesPath + mapName + @"\";
+            mapPath = mapsFilesPath + mapName + @"/";
             if (Directory.Exists(mapPath))
             {
                 mapFilePath = mapPath + mapName + ".txt";
@@ -395,12 +395,11 @@ namespace Worldbuilder
 
 
 
-        public string getzoneimagepath(string x, string y, string z)
+        public string getzoneimagepath(string y, string z)
         {
-            string path = x;
             string zonename = y;
             string mapname = z;
-            string fullpath = path + mapname + @"tile\";
+            string fullpath = Map.mapsFilesPath + mapname + @"tile\";
             return fullpath;
         }
 
