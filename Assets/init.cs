@@ -251,6 +251,15 @@ public class Init : MonoBehaviour
                                     tile.WorldPosition = new Vector3((k + (16 * i)), 0, l + (16 * j));
                                     tilerow.Add(tile);
                                 }
+                                else if (tilemame == "tombeau")
+                                {
+                                    Tuile tile = new Tuile("tombeau", map.ZoneMap[i][j], tileHolder, l, 0, k);
+                                    rnd.material = tileHolder.GetComponent<TileHolder>().mats[2];
+                                    tileHolder.GetComponent<TileHolder>().tile = tile;
+                                    tileHolder.tag = "wall";
+                                    tile.WorldPosition = new Vector3((k + (16 * i)), 0, l + (16 * j));
+                                    tilerow.Add(tile);
+                                }
                             }
                             else
                             {

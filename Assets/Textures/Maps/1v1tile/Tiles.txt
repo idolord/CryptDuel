@@ -24,3 +24,8 @@ wallTile
 60
 collumn
 *
+255
+0
+0
+tombeau
+*
