@@ -16,6 +16,7 @@ namespace Worldbuilder
         protected string type;
         protected Carte carte;
 
+        
 
         public Entite(string nom, int cout, string type)
         {
@@ -24,35 +25,12 @@ namespace Worldbuilder
             carte = new Carte(nom, cout, description);
         }
 
-        public void setNom(string nom)
-        {
-            this.nom = nom;
-        }
+        public string Nom { get { return this.nom; } set { this.nom = value; } }
+        public string Description { get { return this.description; } set { this.description = value; } }
+        public string Type { get { return this.type; } set { this.type = value; } }
+        public Carte Carte { get { return this.carte; } set { this.carte = value; } }
+        public int Cout { get { return this.cout; } set { this.cout = value; } }
 
-        public void setCout(int cout)
-        {
-            this.cout = cout;
-        }
-
-        public void setDescription(string description)
-        {
-            this.description = description;
-        }
-
-        public string getNom()
-        {
-            return this.nom;
-        }
-
-        public int getCout()
-        {
-            return this.cout;
-        }
-
-        public string getDescription()
-        {
-            return this.description;
-        }
     }
 
     [Serializable]
@@ -108,55 +86,17 @@ namespace Worldbuilder
             return this.layout;
         }
 
-        public void setDefense(int defense)
-        {
-            this.defense = defense;
-        }
+        /*les attributs réels de la créature*/
+        public int Attaque { get { return this.attaque; } set { this.attaque = value; } }
+        public int Defense { get { return this.defense; } set { this.defense = value; } }
+        public int Retaliation { get { return this.retaliation; } set { this.retaliation = value; } }
+        public int DuelScience { get { return this.duelScience; } set { this.duelScience = value; } }
+        public int Vie { get { return this.vie; } set { this.vie = value; } }
 
-        public int getDefense()
-        {
-            return defense;
-        }
-
-        public void setDuelScience(int duelScience)
-        {
-            this.duelScience = duelScience;
-        }
-
-        public int getDuelScience()
-        {
-            return duelScience;
-        }
-
-        public void setRetalisation(int retaliation)
-        {
-            this.retaliation = retaliation;
-        }
-
-        public int getRetalisation()
-        {
-            return retaliation;
-        }
-
-        public void setAttaque(int attaque)
-        {
-            this.attaque = attaque;
-        }
-
-        public int getAttaque()
-        {
-            return attaque;
-        }
-
-        public void setVie(int vie)
-        {
-            this.vie = vie;
-        }
-
-        public int getVie()
-        {
-            return this.vie;
-        }
+        /*les chiffres qui permettent de générer les cases du layout correspondant a chaque action/status possible*/
+        public int LayoutAttaque { get { return this.layoutAttaque; } set { this.layoutAttaque = value; } }
+        public int LayoutDeplacement { get { return this.layoutDeplacement; } set { this.layoutDeplacement = value; } }
+        public int LayoutVision { get { return this.layoutVision; } set { this.layoutVision = value; } }
     }
 
 
@@ -175,55 +115,11 @@ namespace Worldbuilder
         {
         }
 
-        public void setNiveau(int niveau)
-        {
-            this.niveau = niveau;
-        }
-
-        public int getNiveau()
-        {
-            return this.niveau;
-        }
-
-        public int getAttaqueParNiveau()
-        {
-            return this.attaqueParNiveau;
-        }
-
-        public void setAttaqueParNiveau(int defenseParNiveau)
-        {
-            this.defenseParNiveau = defenseParNiveau;
-        }
-
-        public int getDefenseParNiveau()
-        {
-            return this.defenseParNiveau;
-        }
-
-        public void setDefenseParNiveau(int defenseParNiveau)
-        {
-            this.defenseParNiveau = defenseParNiveau;
-        }
-
-        public int getRetaliationParNiveau()
-        {
-            return this.retaliationParNiveau;
-        }
-
-        public void setRetaliationParNiveau(int retaliationParNiveau)
-        {
-            this.retaliationParNiveau = retaliationParNiveau;
-        }
-
-        public int getDuelScienceParNiveau()
-        {
-            return this.duelScienceParNiveau;
-        }
-
-        public void setDuelScienceParNiveau(int duelScienceParNiveau)
-        {
-            this.duelScienceParNiveau = duelScienceParNiveau;
-        }
+        public int Niveau { get { return this.niveau; } set { this.niveau = value; } }
+        public int AttaqueParNiveau { get { return this.attaqueParNiveau; } set { this.attaqueParNiveau = value; } }
+        public int DefenseParNiveau { get { return this.defenseParNiveau; } set { this.defenseParNiveau = value; } }
+        public int RetaliationParNiveau { get { return this.retaliationParNiveau; } set { this.retaliationParNiveau = value; } }
+        public int DuelScienceParNiveau { get { return this.duelScienceParNiveau; } set { this.duelScienceParNiveau = value; } }
 
     }
 
@@ -253,29 +149,7 @@ namespace Worldbuilder
         {
             this.nombreLimite = nombreLimite;
         }
-
-        /*De simple ACCESSEUR */
-
-
-        public void setNombreLimite(int nombre)
-        {
-            this.nombreLimite = nombre;
-        }
-
-        public int getNombreLimite()
-        {
-            return this.nombreLimite;
-        }
-
-        public void setListeCarte(List<Entite> listeCarte)
-        {
-            this.listeCarte = listeCarte;
-        }
-
-        public List<Entite> getListeCarte()
-        {
-            return this.listeCarte;
-        }
+           
 
         /*On ajoute une carte dans la liste + surcharge des enfants */
         public virtual void ajouterCarte(Entite uneCarte)
@@ -286,8 +160,7 @@ namespace Worldbuilder
                 this.nombreCarte++;
             }
         }
-
-
+        
         /*On retire une carte de(s) la liste + surcharge des enfants */
 
         public virtual void retirerCarte(Entite uneCarte)
@@ -298,6 +171,11 @@ namespace Worldbuilder
                 this.nombreCarte--;
             }
         }
+
+        public List<Entite> ListeCarte { get { return this.listeCarte; } set { this.listeCarte = value; } }
+        public int NombreLimite { get { return this.nombreLimite; } set { this.nombreLimite = value; } }
+        public int NombreCarte { get { return this.nombreCarte; } set { this.nombreCarte = value; } }
+        public string[] Type { get { return this.type; } set { this.type = value; } }
 
     }
 
@@ -320,25 +198,18 @@ namespace Worldbuilder
 
         public void calculCoutMini()
         {
-            coutMini = listeCarte[0].getCout();
+            coutMini = listeCarte[0].Cout;
             for (int i = 1; i < listeCarte.Count(); i++)
             {
-                if (coutMini > listeCarte[i].getCout())
+                if (coutMini > listeCarte[i].Cout)
                 {
-                    coutMini = listeCarte[i].getCout();
+                    coutMini = listeCarte[i].Cout;
                 }
             }
         }
 
-        public void setCoutMini(int cout)
-        {
-            this.coutMini = cout;
-        }
 
-        public int getCoutMini()
-        {
-            return this.coutMini;
-        }
+        public int CoutMini { get { return this.coutMini; } set { this.coutMini = value; } }
 
 
         /*On ajoute une carte dans la liste + surcharge des enfants */
@@ -485,11 +356,11 @@ namespace Worldbuilder
     [Serializable]
     public class Layout
     {
-        int attaque;
-        int deplacement;
-        int vision;
-        int x = 13;
-        int y = 13;
+        private int attaque;
+        private int deplacement;
+        private int vision;
+        private int x = 13;
+        private int y = 13;
 
         public Layout(int attaque, int deplacement, int vision)
         {

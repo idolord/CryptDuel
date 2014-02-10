@@ -36,6 +36,7 @@ namespace Worldbuilder
         private int energieSpirituelle;
         private int coutMinimal = 0;
 
+        
         /*constructeur simple*/
         public Joueur(string pseudo)
         {
@@ -61,17 +62,17 @@ namespace Worldbuilder
         /* l'initialisation se fait lorsque la partie se lance, pas avant sinon on parle d'une autre étape d'initialisation*/
         public void initialisation()
         {
-            energieSpirituelle = energieSpirituelleMax;
-            crypte = new Crypte("", crypte.getZonePoint());
+            EnergieSpirituelle = energieSpirituelleMax;
+            crypte = new Crypte("", crypte.ZonePoint);
             hand = new Hand();
             cimetiere = new Cimetiere();
             pioche = new Pioche();
             hero = new Hero("PANDA", energieSpirituelleMax - 100, "hero");
 
             /*On transfere les cartes du deck dans la pioche */
-            pioche.setListeCarte(deck.getListeCarte());
+            pioche.ListeCarte = deck.ListeCarte;
             /*On mélange un peu tout ca*/
-            pioche.melanger(pioche.getListeCarte());
+            pioche.melanger(pioche.ListeCarte);
 
             /*3 cartes dans la main pour test*/
             piocher();
@@ -86,14 +87,7 @@ namespace Worldbuilder
         /*shift/déplacer la crypte entiere*/
         public void crypter()
         {
-            Console.WriteLine("*** Shift ***");
-            Console.WriteLine("Vers quelle direction voulez vous déplacer votre crypte?");
-            Console.WriteLine("1. Nord");
-            Console.WriteLine("2. Sud");
-            Console.WriteLine("3. Est");
-            Console.WriteLine("4. Ouest");
-            string compteur = Console.ReadLine();
-            crypte.deplacerCrypte(int.Parse(compteur));
+            //crypte.deplacerCrypte();
         }
 
         /*recycler en défaussant une carte, puis choisis l'action supplémentaire a faire*/
@@ -111,13 +105,11 @@ namespace Worldbuilder
             Pion pion;
             hero = new Hero("PandaOUF", 500, "hero");
 
-            this.setEnergieSpirituelleActuelle(this.getEnergieSpirituelleActuelle() - this.hero.getCout());
-            Console.WriteLine("++++++ INVOCATION D'UN HERO ++++++");
-            Console.WriteLine("Le cout a été de :" + this.hero.getCout() + " et il vous reste " + this.getEnergieSpirituelleActuelle() + " ES");
+            this.EnergieSpirituelle = this.EnergieSpirituelle - this.hero.Cout;
             //un hero est forcément visible
-            pion = new Pion();
-            pion.setCreature(hero);
-            pion.setEstHero(true);
+            pion = new Pion(true);
+            pion.Creature = hero;
+            pion.EstHero = true;
             this.listePionInvoque.Add(pion);
             return pion;
         }
@@ -138,10 +130,10 @@ namespace Worldbuilder
 
             //hand.afficherCreature("=== Votre main ===");
             compteur = Console.ReadLine();
-            carte = hand.getListeCarte()[int.Parse(compteur) - 1];
+            carte = hand.ListeCarte[int.Parse(compteur) - 1];
             //hand.afficher("=== Votre main ===");
 
-            if (this.getEnergieSpirituelleActuelle() > carte.getCout())
+            if (this.EnergieSpirituelle > carte.Cout)
             {
                 Console.WriteLine("1. Visible");
                 Console.WriteLine("2. Caché");
@@ -149,18 +141,18 @@ namespace Worldbuilder
                 bool estVisible = true;
                 if (compteur == "1")
                 {
-                    Console.WriteLine("Bravo ! Vous avez invoqué " + carte.getNom() + " face visible");
+                    Console.WriteLine("Bravo ! Vous avez invoqué " + carte.Nom + " face visible");
                     estVisible = true;
                 }
                 else if (compteur == "2")
                 {
-                    Console.WriteLine("Bravo ! Vous avez invoqué " + carte.getNom() + " face caché");
+                    Console.WriteLine("Bravo ! Vous avez invoqué " + carte.Nom + " face caché");
                     estVisible = false;
                 }
-                this.setEnergieSpirituelleActuelle(this.getEnergieSpirituelleActuelle() - carte.getCout());
-                Console.WriteLine("Le cout a été de :" + carte.getCout() + " et il vous reste " + this.getEnergieSpirituelleActuelle() + " ES");
-                pion = new Pion();
-                pion.setCreature((Creature)carte);
+                this.EnergieSpirituelle = this.EnergieSpirituelle - carte.Cout;
+                Console.WriteLine("Le cout a été de :" + carte.Cout + " et il vous reste " + this.EnergieSpirituelle + " ES");
+                pion = new Pion(estVisible);
+                pion.Creature = (Creature)carte;
                 this.listePionInvoque.Add(pion);
                 hand.retirerCarte(carte);
                 //hand.afficher("=== Votre main ===");
@@ -209,50 +201,27 @@ namespace Worldbuilder
             Console.WriteLine("Votre tour est finis");
             for (int i = 0; i < listePionInvoque.Count(); i++)
             {
-                listePionInvoque[i].setEstInvoque(false);
+                listePionInvoque[i].EstInvoque = false;
             }
             Console.WriteLine("Les créatures invoquées dans son tour n'ont plus le mal de l'invocation...");
             if (hero != null)
             {
                 Console.WriteLine("Votre héro regagne de l'énergie spirituelle s'il en a perdu");
-                hero.setVie(hero.getVie() + 100);
+                hero.Vie = hero.Vie + 100;
             }
         }
-
-        public Crypte getCrypte()
-        {
-            return this.crypte;
-        }
-
-        public int getEnergieSpirituelleActuelle()
-        {
-            return this.energieSpirituelle;
-        }
-
-        public void setEnergieSpirituelleActuelle(int energieSpirituelle)
-        {
-            this.energieSpirituelle = energieSpirituelle;
-        }
-
-        public int getEnergieSpirituelleMax()
-        {
-            return this.energieSpirituelleMax;
-        }
-
-        public Hand getHand()
-        {
-            return this.hand;
-        }
-
-        public string getPseudo()
-        {
-            return this.pseudo;
-        }
-
-        public List<Pion> getListePionInvoque()
-        {
-            return this.listePionInvoque;
-        }
+        
+        public int CoutMinimal  { get{ return this.coutMinimal;} set { this.coutMinimal = value;} }
+        public int EnergieSpirituelle  { get{ return this.energieSpirituelle;} set { this.energieSpirituelle = value;} }
+        public int EnergieSpirituelleMax  { get{ return this.energieSpirituelleMax;} set { this.energieSpirituelleMax = value;} }
+        public Hero Hero  { get{ return this.hero;} set { this.hero = value;} }
+        public List<Pion> ListePionInvoque  { get{ return this.listePionInvoque;} set { this.listePionInvoque = value;} }
+        public Pioche Pioche  { get{ return this.pioche;} set { this.pioche = value;} }
+        public Cimetiere Cimetiere  { get{ return this.cimetiere;} set { this.cimetiere = value;} }
+        public Hand Hand  { get{ return this.hand;} set { this.hand = value;} }
+        public Crypte Crypte  { get{ return this.crypte;} set { this.crypte = value;} }
+        public Deck Deck  { get{ return this.deck;} set { this.deck = value;} }
+        public string Pseudo  { get{ return this.pseudo;} set { this.pseudo = value;} }
     }
 
     [Serializable]
@@ -260,7 +229,7 @@ namespace Worldbuilder
     {
         public void afficher(Tour t)
         {
-            Console.WriteLine(t.getNom());
+            Console.WriteLine(t.Nom);
         }
     }
 
@@ -272,9 +241,6 @@ namespace Worldbuilder
         {
         }
 
-        public string getNom()
-        {
-            return this.nom;
-        }
+        public string Nom { get { return this.nom; } set { this.nom = value;} }
     }
 }

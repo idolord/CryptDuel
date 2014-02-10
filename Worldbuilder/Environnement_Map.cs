@@ -26,6 +26,11 @@ namespace Worldbuilder
         {
             overGUI = false;
         }
+
+        public bool OverGUI {get{ return this.overGUI;} set { this.overGUI = value;} }
+        public bool Canend  {get{ return this.canend;} set { this.canend = value;}}
+        public bool Ended   {get{ return this.ended;} set { this.ended = value;} }
+
     }
 
     [Serializable]
@@ -34,7 +39,7 @@ namespace Worldbuilder
 
 
         private string mapName;
-        private static string mapsFilesPath = Application.dataPath + @"\Textures\Maps\";
+        public static string mapsFilesPath = Application.dataPath + @"\Textures\Maps\";
         private string mapPath;
         private string mapFilePath;
         private List<List<Zone>> zoneMap;
@@ -44,7 +49,6 @@ namespace Worldbuilder
         private Environnement environement;
         private int nbX;
         private int nbY;
-
 
 
         public Map(string x, Environnement y)
@@ -136,17 +140,17 @@ namespace Worldbuilder
 
         public List<Pion> pionAdjacent(Pion pion)
         {
-            int x = pion.getPosX();
-            int y = pion.getPosY();
+            int x = pion.PosX;
+            int y = pion.PosY;
             List<Pion> pionAdjacent = new List<Pion>();
             Tuile tuileNord = tuileMap[y - 1][x];
             Tuile tuileSud = tuileMap[y + 1][x];
             Tuile tuileEst = tuileMap[y][x + 1];
             Tuile tuileOuest = tuileMap[y][x - 1];
-            string typeNord = tuileNord.getType();
-            string typeSud = tuileSud.getType();
-            string typeEst = tuileEst.getType();
-            string typeOuest = tuileOuest.getType();
+            string typeNord = tuileNord.Type;
+            string typeSud = tuileSud.Type;
+            string typeEst = tuileEst.Type;
+            string typeOuest = tuileOuest.Type;
             /*
             Console.WriteLine("Au nord il y a : une tuile type " + typeNord);
             Console.WriteLine("Au sud il y a : une tuile type " + typeSud);
@@ -155,19 +159,19 @@ namespace Worldbuilder
              * */
             if (typeNord == "pion")
             {
-                pionAdjacent.Add(tuileNord.getPion());
+                pionAdjacent.Add(tuileNord.Pion);
             }
             if (typeSud == "pion")
             {
-                pionAdjacent.Add(tuileSud.getPion());
+                pionAdjacent.Add(tuileSud.Pion);
             }
             if (typeEst == "pion")
             {
-                pionAdjacent.Add(tuileEst.getPion());
+                pionAdjacent.Add(tuileEst.Pion);
             }
             if (typeOuest == "pion")
             {
-                pionAdjacent.Add(tuileOuest.getPion());
+                pionAdjacent.Add(tuileOuest.Pion);
             }
 
             Console.WriteLine("Pion adjacent : " + pionAdjacent.Count());
@@ -178,33 +182,38 @@ namespace Worldbuilder
 
         public void attaquer(int direction, Pion pion)
         {
-            int x = pion.getPosX();
-            int y = pion.getPosY();
+            int x = pion.PosX;
+            int y = pion.PosY;
             Console.WriteLine("x : " + x + " y : " + y);
             if (direction == 1)
             {
-                Console.WriteLine("A l'attaque ! nord " + tuileMap[y - 1][x].getType());
                 tuileMap[y - 1][x] = new Tuile(x, y - 1, "empty");
             }
             else if (direction == 2)
             {
-                Console.WriteLine("A l'attaque ! sud " + tuileMap[y + 1][x].getType());
                 tuileMap[y + 1][x] = new Tuile(x, y + 1, "empty");
             }
             else if (direction == 3)
             {
-                Console.WriteLine("A l'attaque ! est " + tuileMap[y][x + 1].getType());
                 tuileMap[y][x + 1] = new Tuile(x + 1, y, "empty");
             }
             else if (direction == 4)
             {
-                Console.WriteLine("A l'attaque ! ouest " + tuileMap[y][x - 1].getType());
                 tuileMap[y][x - 1] = new Tuile(x - 1, y, "empty");
             }
 
-            Console.WriteLine("fin de l'attaque");
-
         }//FIN ATTAQUER
+
+
+        public int NbY { get { return this.nbY; } set { this.nbY = value; } }
+        public int NbX { get { return this.nbX; } set { this.nbX = value; } }
+        public Environnement Environnement { get { return this.environement; } set { this.environement = value; } }
+        public List<Tuile> Ligne { get { return this.ligne; } set { this.ligne = value; } }
+        public List<List<System.Drawing.Color>> ZoneColorMap { get { return this.zoneColorMap; } set { this.zoneColorMap = value; } }
+        public List<List<Zone>> ZoneMap { get { return this.zoneMap; } set { this.zoneMap = value; } }
+        public string MapFilePath { get { return this.mapFilePath; } set { this.mapFilePath = value; } }
+        public string MapPath { get { return this.mapPath; } set { this.mapPath = value; } }
+        public string MapName { get { return this.mapName; } set { this.mapName = value; } }
 
 
     }
@@ -233,7 +242,7 @@ namespace Worldbuilder
             zone = z;
             tuileHandle = hand;
             realPosition = new Vector3(i, y, x);
-            tuileHandle.transform.parent = zone.getZonePoint().transform;
+            tuileHandle.transform.parent = zone.ZonePoint.transform;
             tuileHandle.transform.localPosition = realPosition;
             tuileRenderer = tuileHandle.GetComponent<Renderer>();
         }
@@ -295,45 +304,25 @@ namespace Worldbuilder
             this.pion = null;
         }
 
-        public void setType(string type)
-        {
-            this.type = type;
-        }
 
-        public string getType()
-        {
-            return this.type;
-        }
+        public GameObject TuileHandle { get { return this.tuileHandle; } set { this.tuileHandle = value; } }
+        public Renderer TuileRenderer { get { return this.tuileRenderer; } set { this.tuileRenderer = value; } }
+        public string Type { get { return this.type; } set { this.type = value; } }
+        public Zone Zone { get { return this.zone; } set { this.zone = value; } }
+        public Vector3 RealPosition { get { return this.realPosition; } set { this.realPosition = value; } }
+        public bool Interactable { get { return this.interactable; } set { this.interactable = value; } }
+        public bool Reinforced { get { return this.reinforced; } set { this.reinforced = value; } }
+        public int Hp { get { return this.hp; } set { this.hp = value; } }
+        public int Armor { get { return this.armor; } set { this.armor = value; } }
+        public Vector3 WorldPosition { get { return this.worldPosition; } set { this.worldPosition = value; } }
+        public Pion Pion { get { return this.pion; } set { this.pion = value; } }
+        public ZoneEffet ZoneEffet { get { return this.zoneEffet; } set { this.zoneEffet = value; } }
+        public int PosX { get { return this.posX; } set { this.posX = value; } }
+        public int PosY { get { return this.posY; } set { this.posY = value; } }
 
-        public void setPosY(int y)
-        {
-            this.posY = y;
-        }
 
-        public int getPosY()
-        {
-            return this.posY;
-        }
+    }//TUILE
 
-        public void setPosX(int x)
-        {
-            this.posX = x;
-        }
-
-        public int getPosX()
-        {
-            return this.posX;
-        }
-        public void setPion(Pion pion)
-        {
-            this.pion = pion;
-        }
-
-        public Pion getPion()
-        {
-            return this.pion;
-        }
-    }
 
     [Serializable]
     public class Pion
@@ -348,86 +337,25 @@ namespace Worldbuilder
         private Vector2 worldpos;
         private string type;
 
-        public Pion pions(bool estVisible)
+        public Pion(bool estVisible)
         {
             estInvoque = true;
             this.estVisible = estVisible;
-            return this;
         }
 
-        public void setEstHero(bool estHero)
-        {
-            this.estHero = estHero;
-        }
+        public int PosX { get { return this.posX; } set { this.posX = value; } }
+        public int PosY { get { return this.posY; } set { this.posY = value; } }
+        public bool EstInvoque { get { return this.estInvoque; } set { this.estInvoque = value; } }
+        public bool EstVisible { get { return this.estVisible; } set { this.estVisible = value; } }
+        public int Sens { get { return this.sens; } set { this.sens = value; } }
+        public Creature Creature { get { return this.creature; } set { this.creature = value; } }
+        public bool EstHero { get { return this.estHero; } set { this.estHero = value; } }
+        public Vector2 Worldpos { get { return this.worldpos; } set { this.worldpos = value; } }
+        public string Type { get { return this.type; } set { this.type = value; } }
 
-        public bool getEstHero()
-        {
-            return this.estHero;
-        }
+                
+    }//PION
 
-        public void setPosX(int x)
-        {
-            this.posX = x;
-        }
-
-        public int getPosX()
-        {
-            return this.posX;
-        }
-
-        public void setPosY(int y)
-        {
-            this.posY = y;
-        }
-
-        public int getPosY()
-        {
-            return this.posY;
-        }
-
-        public void setCreature(Creature creature)
-        {
-            this.creature = creature;
-        }
-
-        public Creature getCreature()
-        {
-            return this.creature;
-        }
-
-        public void setEstInvoque(bool b)
-        {
-            this.estInvoque = b;
-        }
-
-        public void setEstVisible(bool b)
-        {
-            this.estVisible = b;
-        }
-
-        public bool getEstVisible()
-        {
-            return this.estVisible;
-        }
-
-        public bool getEstInvoque()
-        {
-            return this.estInvoque;
-        }
-
-        public void setSens(int sens)
-        {
-            this.sens = sens;
-        }
-
-        public int getSens()
-        {
-            return this.sens;
-        }
-
-        
-        
-    }
 
     [Serializable]
     public class Tombeau
@@ -445,7 +373,12 @@ namespace Worldbuilder
             this.posY = y;
         }
 
-    }
+        public int PosX { get { return this.posX; } set { this.posX = value; } }
+        public int PosY { get { return this.posY; } set { this.posY = value; } }
+
+
+    }//TOMBEAU
+
 
     //zone family
     [Serializable]
@@ -471,12 +404,11 @@ namespace Worldbuilder
             return fullpath;
         }
 
-        public GameObject getZonePoint()
-        {
-            return this.zonePoint;
-        }
+        public string Type { get { return this.type; } set { this.type = value; } }
+        public GameObject ZonePoint { get { return this.zonePoint; } set { this.zonePoint = value; } }
 
-    }
+    }//ZONE
+
 
     [Serializable]
     public class Crypte : Zone
@@ -494,36 +426,32 @@ namespace Worldbuilder
         {
             if (direction == 1)
             {
-                Console.WriteLine("La crypte s'est déplacé vers le nord");
             }
             else if (direction == 2)
             {
-                Console.WriteLine("La crypte s'est déplacé vers le sud");
             }
             else if (direction == 3)
             {
-                Console.WriteLine("La crypte s'est déplacé vers l'est");
             }
             else if (direction == 4)
             {
-                Console.WriteLine("La crypte s'est déplacé vers l'ouest");
             }
         }
 
-        public Tombeau getTombeau()
-        {
-            return this.tombeau;
-        }
+        public Tombeau Tombeau { get { return this.tombeau; } set { this.tombeau = value; } }
 
 
-    }
+    }//CRYPTE
+
 
     [Serializable]
     public class Arene : Zone
     {
+
         public Arene(string type, GameObject gameObject)
             : base(type, gameObject)
         {
         }
-    }
+
+    }//ARENE
 }

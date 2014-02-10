@@ -4,12 +4,12 @@ using Worldbuilder;
 
 public class menu : MonoBehaviour {
     public Texture bkgt;
-    public env Gui;
+    public Environnement Gui;
     GUILayout menulayout;
 
     void OnMouseOver()
     {
-        Gui.overGUI = true;
+        Gui.OverGUI = true;
     }
 
    
@@ -21,7 +21,7 @@ public class menu : MonoBehaviour {
 	// Update is called once per frame
     void Update()
     {
-        Gui.overGUI = false;
+        Gui.OverGUI = false;
 	}
 
     void OnGUI()
