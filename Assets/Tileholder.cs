@@ -4,7 +4,7 @@ using Worldbuilder;
 using System;
 
 [Serializable]
-public class TileHolder : MonoBehaviour
+public class Tileholder : MonoBehaviour
 {
 
     // Use this for initialization
@@ -93,12 +93,23 @@ public class TileHolder : MonoBehaviour
         }
     }
 
+
+
+
+    void OnMouseDown()
+    {
+        if (tile.Type == "pion")
+        {
+            Application.LoadLevelAdditive(
+        }
+    }
+
     void changetowall()
     {
         tile.Type = "wallTile";
         tile.TuileHandle.tag = "wall";
         tile.TuileRenderer.material = mats[2];
-        this.Destroy(bosc);
+        Destroy(bosc);
     }
 
     void changetowallborder()
@@ -106,7 +117,7 @@ public class TileHolder : MonoBehaviour
         tile.Type = "wallTile";
         tile.TuileHandle.tag = "border";
         tile.TuileRenderer.material = mats[2];
-        this.Destroy(bosc);
+        Destroy(bosc);
     }
 
     void Start()

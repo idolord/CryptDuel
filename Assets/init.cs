@@ -3,18 +3,22 @@ using System.Collections;
 using System.Collections.Generic;
 using Worldbuilder;
 
-public class Init : MonoBehaviour
+public class init : MonoBehaviour
 {
 
-    public int nombreTuile = 0;
+    public GameObject tileHolder;
+    public Renderer rnd;
     // Use this for initialization
+
+    GameObject cam;
     void Start()
     {
 
         
         //instatiating mainmenu.
         //GameObject startmenu = Instantiate(Resources.Load("ui/menuGO")) as GameObject;
-        GameObject cam = new GameObject();
+        
+        cam = new GameObject();
         cam.AddComponent<Camera>();
         cam.gameObject.AddComponent<camera>();
         //instantiating environement
@@ -164,11 +168,11 @@ public class Init : MonoBehaviour
                         List<Tuile> tilerow = new List<Tuile>();
                         for (int l = 0; l < 16; l++)
                         {
-                            GameObject tileHolder = Instantiate(Resources.Load("tile/TileHolder")) as GameObject;
-                            Renderer rnd = tileHolder.GetComponent<Renderer>();
+                            tileHolder = Instantiate(Resources.Load("tile/Tileholder")) as GameObject;
+                            rnd = tileHolder.GetComponent<Renderer>();
                             Tuile tile = new Tuile("empty", map.ZoneMap[i][j], tileHolder, l, 0, k);
-                            rnd.material = tileHolder.GetComponent<TileHolder>().mats[0];
-                            tileHolder.GetComponent<TileHolder>().tile = tile;
+                            rnd.material = tileHolder.GetComponent<Tileholder>().mats[0];
+                            tileHolder.GetComponent<Tileholder>().tile = tile;
                             tileHolder.tag = "empty";
                             tile.WorldPosition = new Vector3((k + (16 * j)), 0, l + (16 * i));
                             tilerow.Add(tile);
@@ -183,11 +187,11 @@ public class Init : MonoBehaviour
                         List<Tuile> tilerow = new List<Tuile>();
                         for (int l = 0; l < 16; l++)
                         {
-                            GameObject tileHolder = Instantiate(Resources.Load("tile/TileHolder")) as GameObject;
-                            Renderer rnd = tileHolder.GetComponent<Renderer>();
+                            tileHolder = Instantiate(Resources.Load("tile/Tileholder")) as GameObject;
+                            rnd = tileHolder.GetComponent<Renderer>();
                             Tuile tile = new Tuile("border", map.ZoneMap[i][j], tileHolder, l, 0, k);
-                            rnd.material = tileHolder.GetComponent<TileHolder>().mats[0];
-                            tileHolder.GetComponent<TileHolder>().tile = tile;
+                            rnd.material = tileHolder.GetComponent<Tileholder>().mats[0];
+                            tileHolder.GetComponent<Tileholder>().tile = tile;
                             tileHolder.tag = "border";
                             tile.WorldPosition = new Vector3((k + (16 * i)), 0, l + (16 * j));
                             tilerow.Add(tile);
@@ -217,8 +221,8 @@ public class Init : MonoBehaviour
                         List<Tuile> tilerow = new List<Tuile>();
                         for (int l = 0; l < 16; l++)
                         {
-                            GameObject tileHolder = Instantiate(Resources.Load("tile/TileHolder")) as GameObject;
-                            Renderer rnd = tileHolder.GetComponent<Renderer>();
+                            tileHolder = Instantiate(Resources.Load("tile/Tileholder")) as GameObject;
+                            rnd = tileHolder.GetComponent<Renderer>();
 
                             if (tilescolor[l][k].A == 255)
                             {
@@ -226,8 +230,8 @@ public class Init : MonoBehaviour
                                 if (tilemame == "openfloorTile")
                                 {
                                     Tuile tile = new Tuile("openfloorTile", map.ZoneMap[i][j], tileHolder, l, -1, k);
-                                    rnd.material = tileHolder.GetComponent<TileHolder>().mats[2];
-                                    tileHolder.GetComponent<TileHolder>().tile = tile;
+                                    rnd.material = tileHolder.GetComponent<Tileholder>().mats[2];
+                                    tileHolder.GetComponent<Tileholder>().tile = tile;
                                     tileHolder.tag = "floor";
                                     tile.WorldPosition = new Vector3((k + (16 * i)), 0, l + (16 * j));
                                     tilerow.Add(tile);
@@ -235,8 +239,8 @@ public class Init : MonoBehaviour
                                 else if (tilemame == "wallTile")
                                 {
                                     Tuile tile = new Tuile("wallTile", map.ZoneMap[i][j], tileHolder, l, 0, k);
-                                    rnd.material = tileHolder.GetComponent<TileHolder>().mats[2];
-                                    tileHolder.GetComponent<TileHolder>().tile = tile;
+                                    rnd.material = tileHolder.GetComponent<Tileholder>().mats[2];
+                                    tileHolder.GetComponent<Tileholder>().tile = tile;
                                     tileHolder.tag = "wall";
                                     tile.WorldPosition = new Vector3((k + (16 * i)), 0, l + (16 * j));
                                     tilerow.Add(tile);
@@ -245,8 +249,8 @@ public class Init : MonoBehaviour
                                 else if (tilemame == "collumn")
                                 {
                                     Tuile tile = new Tuile("collumn", map.ZoneMap[i][j], tileHolder, l, 0, k);
-                                    rnd.material = tileHolder.GetComponent<TileHolder>().mats[2];
-                                    tileHolder.GetComponent<TileHolder>().tile = tile;
+                                    rnd.material = tileHolder.GetComponent<Tileholder>().mats[2];
+                                    tileHolder.GetComponent<Tileholder>().tile = tile;
                                     tileHolder.tag = "wall";
                                     tile.WorldPosition = new Vector3((k + (16 * i)), 0, l + (16 * j));
                                     tilerow.Add(tile);
@@ -254,8 +258,8 @@ public class Init : MonoBehaviour
                                 else if (tilemame == "tombeau")
                                 {
                                     Tuile tile = new Tuile("tombeau", map.ZoneMap[i][j], tileHolder, l, 0, k);
-                                    rnd.material = tileHolder.GetComponent<TileHolder>().mats[2];
-                                    tileHolder.GetComponent<TileHolder>().tile = tile;
+                                    rnd.material = tileHolder.GetComponent<Tileholder>().mats[2];
+                                    tileHolder.GetComponent<Tileholder>().tile = tile;
                                     tileHolder.tag = "wall";
                                     tile.WorldPosition = new Vector3((k + (16 * i)), 0, l + (16 * j));
                                     tilerow.Add(tile);
@@ -264,8 +268,8 @@ public class Init : MonoBehaviour
                             else
                             {
                                 Tuile tile = new Tuile("empty", map.ZoneMap[i][j], tileHolder, l, 0, k);
-                                rnd.material = tileHolder.GetComponent<TileHolder>().mats[0];
-                                tileHolder.GetComponent<TileHolder>().tile = tile;
+                                rnd.material = tileHolder.GetComponent<Tileholder>().mats[0];
+                                tileHolder.GetComponent<Tileholder>().tile = tile;
                                 tileHolder.tag = "empty";
                                 tile.WorldPosition = new Vector3((k + (16 * i)), 0, l + (16 * j));
                                 tilerow.Add(tile);
@@ -281,7 +285,8 @@ public class Init : MonoBehaviour
         map.GenererTuileMap();
         //updating tiles according to surounding
        // map.tileCheckForEmptyToWall();
-       
+
+        //initilisationTour(map);
         
     }
 
@@ -289,7 +294,83 @@ public class Init : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        nombreTuile = Map.tuileMap.Count;
     }
+
+
+
+
+
+
+
+
+
+
+    bool ok = true;
+
+    void OnGUI()
+    {
+
+        if (ok)
+        {
+            if (GUI.Button(new Rect(20, 35, 100, 20), "Let's go !"))
+            {
+                ok = false;
+            }
+        }
+        else
+        {
+            cam.gameObject.AddComponent<MenuShift>();
+            if (cam.gameObject.GetComponent<MenuShift>().choix == 1)
+            {
+                Debug.Log("je shift");
+                Destroy(cam.gameObject.GetComponent<MenuShift>());
+            }
+            else if (cam.gameObject.GetComponent<MenuShift>().choix == 2)
+            {
+                
+                Debug.Log("je demande pour recycle");
+                cam.gameObject.AddComponent<MenuRecycle>();
+            }
+        }
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }
+
+
 
