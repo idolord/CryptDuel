@@ -1,4 +1,0 @@
-C:\Users\idolord\Documents\GitHub\CryptDuel\Worldbuilder\bin\Release\Worldbuilder.dll
-C:\Users\idolord\Documents\GitHub\CryptDuel\Worldbuilder\bin\Release\Worldbuilder.pdb
-C:\Users\idolord\Documents\GitHub\CryptDuel\Worldbuilder\obj\Release\Worldbuilder.dll
-C:\Users\idolord\Documents\GitHub\CryptDuel\Worldbuilder\obj\Release\Worldbuilder.pdb
