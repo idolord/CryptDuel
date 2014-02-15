@@ -20,6 +20,7 @@ public class ConstructeurMenu {
 
 public class InterfaceObject 
 {
+
     static int w = Screen.width;
     static int h = Screen.height;
     public string name;
@@ -28,9 +29,12 @@ public class InterfaceObject
     public List<iComponent> guiMenu;
     menuDisplay display;
 
+    string username;
+    string pasworld;
+
     public void run()
     {
-        MenuPrincipal();
+        login();
     }
 
     public menuDisplay GetDisplay(GameObject o)
@@ -43,6 +47,9 @@ public class InterfaceObject
     {
         switch (this.name)
         {
+            case "Login":
+                box = new Rect((w / 2) - ((w / 2) / 2) / 2, (h / 2) - (((h / 2)/2)/2) , (w / 2) / 2, (h / 2)/2);
+                break;
             case "Play":
                 box = new Rect((w / 2) - ((w / 2)/2)/2, (h / 2) - ((h / 2) / 2), (w / 2)/2, h / 2);
                 break;
@@ -61,17 +68,30 @@ public class InterfaceObject
         }
     }
 
+    void login()
+    {
+        GameObject menuinstance = GameObject.Instantiate(handle) as GameObject;
+        guiMenu = new List<iComponent>();
+        name = "Login";
+        SetbBox();
+        guiMenu.Add(CreateFieldFrame("Username"));
+        guiMenu.Add(CreateFieldFrame("Passworld"));
+        guiMenu.Add(CreateButonFrame("Enter"));
+        display = menuinstance.AddComponent<menuDisplay>();
+        display.SetGUI(menuinstance, this, guiMenu, box, name);
+    }
+
     void MenuPrincipal()
     {
         GameObject menuinstance = GameObject.Instantiate(handle) as GameObject;
         guiMenu = new List<iComponent>();
         name = "principal";
         SetbBox();
-        guiMenu.Add(CreateButon("Play"));
-        guiMenu.Add(CreateButon("Load"));
-        guiMenu.Add(CreateButon("Manage Deck"));
-        guiMenu.Add(CreateButon("Options"));
-        guiMenu.Add(CreateButon("Exit"));
+        guiMenu.Add(CreateButonFrame("Play"));
+        guiMenu.Add(CreateButonFrame("Load"));
+        guiMenu.Add(CreateButonFrame("Manage Deck"));
+        guiMenu.Add(CreateButonFrame("Options"));
+        guiMenu.Add(CreateButonFrame("Exit"));
         display = menuinstance.AddComponent<menuDisplay>();
         display.SetGUI(menuinstance, this, guiMenu, box, name);
 
@@ -83,9 +103,9 @@ public class InterfaceObject
         guiMenu = new List<iComponent>();
         name = "Play";
         SetbBox();
-        guiMenu.Add(CreateButon("Solo"));
-        guiMenu.Add(CreateButon("Multi"));
-        guiMenu.Add(CreateButon("Back"));
+        guiMenu.Add(CreateButonFrame("Solo"));
+        guiMenu.Add(CreateButonFrame("Multi"));
+        guiMenu.Add(CreateButonFrame("Back"));
         display = menuinstance.AddComponent<menuDisplay>();
         display.SetGUI(menuinstance, this, guiMenu, box, name);
     }
@@ -118,15 +138,15 @@ public class InterfaceObject
         guiMenu = new List<iComponent>();
         name = "Options";
         SetbBox();
-        guiMenu.Add(CreateButon("audio"));
-        guiMenu.Add(CreateButon("Manage Save"));
-        guiMenu.Add(CreateButon("Change User"));
-        guiMenu.Add(CreateButon("Back"));
+        guiMenu.Add(CreateButonFrame("audio"));
+        guiMenu.Add(CreateButonFrame("Manage Save"));
+        guiMenu.Add(CreateButonFrame("Change User"));
+        guiMenu.Add(CreateButonFrame("Back"));
         display = menuinstance.AddComponent<menuDisplay>();
         display.SetGUI(menuinstance, this, guiMenu, box, name);
     }
 
-    iBouton CreateButon(string s)
+    iBouton CreateButonFrame(string s)
     {
         iBouton temp = new iBouton();
         temp.SetType(s);
@@ -145,6 +165,13 @@ public class InterfaceObject
         return temp;
     }
 
+    iField CreateFieldFrame(string s)
+    {
+        iField temp = new iField();
+        temp.SetType(s);
+        return temp;
+    }
+
     public string getName()
     {
         return name;
@@ -154,6 +181,11 @@ public class InterfaceObject
     {
         switch (s)
         {
+            case "Enter":
+                MenuPrincipal();
+                List<string> user = display.getUser();
+                GameObject.Destroy(o);
+                break;
             case "Play":
                 MenuPlay();
                 GameObject.Destroy(o);
@@ -182,7 +214,6 @@ public class InterfaceObject
         }
     }
 
-    
 }
 
 public class iBouton : iComponent
@@ -194,6 +225,14 @@ public class iLoadSaveFrame : iComponent
 
 }
 public class iManageDeckFrame : iComponent
+{
+
+}
+public class iField : iComponent
+{
+
+}
+public class iMessageFrame : iComponent
 {
 
 }
@@ -222,15 +261,33 @@ public class menuDisplay : MonoBehaviour
     InterfaceObject handObject;
     GameObject hand;
 
+    string username = string.Empty;
+    string pasworld= string.Empty;
+
+    public List<string> getUser ()
+    {
+        List<string> temp = new List<string>();
+        temp.Add(username);
+        temp.Add(pasworld);
+        return temp;
+    }
+
     public menuDisplay()
     {
         visible = false;
+    }
+
+    void Update()
+    {
+       
     }
 
     void OnGUI()
     {
             if (visible)
             {
+                GUILayout.BeginArea(new Rect(Screen.width - (Screen.width * 10) / 100, Screen.height + 10, Screen.width - (Screen.width * 10) / 100, Screen.height - (Screen.height * 30) / 100));
+                GUILayout.EndArea();
                 GUI.Box(boite,string.Empty);
                 GUILayout.BeginArea(boite);
                 GUILayout.BeginVertical("", GUILayout.Height(Mathf.Floor((boite.height*10)/100)));
@@ -280,6 +337,22 @@ public class menuDisplay : MonoBehaviour
                             }
                             GUILayout.EndHorizontal();
                         }
+                        else if (compo.GetType() == typeof(iField))
+                        {
+                            GUILayout.BeginHorizontal("",GUILayout.Width(boite.width));
+                            GUILayout.FlexibleSpace();
+                            GUILayout.Label(compo.getLabel());
+                            GUILayout.FlexibleSpace();
+                            GUILayout.EndHorizontal();
+                            if (compo.getLabel() == "Username")
+                            {
+                                username = GUILayout.TextField(username, 25);
+                            }
+                            else
+                            {
+                                pasworld = GUILayout.PasswordField(pasworld,"*"[0]);
+                            }
+                        }
 
                     }
                 
@@ -289,10 +362,6 @@ public class menuDisplay : MonoBehaviour
        
     }
 
-    void setvisible(bool s)
-    {
-        visible = s;
-    }
 
     public void SetGUI(GameObject go,InterfaceObject o,List<iComponent> l, Rect b, string n)
     {
