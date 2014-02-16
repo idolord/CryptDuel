@@ -28,9 +28,19 @@ public class InterfaceObject
     GameObject handle = new GameObject();
     public List<iComponent> guiMenu;
     menuDisplay display;
-
+    joueur Joueur;
     string username;
     string pasworld;
+
+    public joueur getJoueur ()
+    {
+        return Joueur;
+    }
+
+    void createJoueur(string s)
+    {
+        Joueur = new joueur(s);
+    }
 
     public void run()
     {
@@ -59,7 +69,7 @@ public class InterfaceObject
             case "Load":
                 box = new Rect(w - (w - 10), h - (h - 10), w - 20, h - 20);
                 break;
-            case "Manage Deck":
+            case "Deck Selection":
                 box = new Rect(w - (w - 10), h - (h - 10), w - 20, h - 20);
                 break;
             default:
@@ -125,7 +135,7 @@ public class InterfaceObject
     {
         GameObject menuinstance = GameObject.Instantiate(handle) as GameObject;
         guiMenu = new List<iComponent>();
-        name = "Manage Deck";
+        name = "Deck Selection";
         SetbBox();
         guiMenu.Add(CreateManageDeckFrame());
         display = menuinstance.AddComponent<menuDisplay>();
@@ -146,28 +156,28 @@ public class InterfaceObject
         display.SetGUI(menuinstance, this, guiMenu, box, name);
     }
 
-    iBouton CreateButonFrame(string s)
+    iBoutonFrame CreateButonFrame(string s)
     {
-        iBouton temp = new iBouton();
+        iBoutonFrame temp = new iBoutonFrame();
         temp.SetType(s);
         return temp;
     }
 
-    iLoadSaveFrame CreateiLoadSaveFrame()
+    iComponent CreateiLoadSaveFrame()
     {
         iLoadSaveFrame temp = new iLoadSaveFrame();
         return temp;
     }
 
-    iManageDeckFrame CreateManageDeckFrame()
+    iComponent CreateManageDeckFrame()
     {
         iManageDeckFrame temp = new iManageDeckFrame();
         return temp;
     }
 
-    iField CreateFieldFrame(string s)
+    iFormFrame CreateFieldFrame(string s)
     {
-        iField temp = new iField();
+        iFormFrame temp = new iFormFrame();
         temp.SetType(s);
         return temp;
     }
@@ -184,6 +194,7 @@ public class InterfaceObject
             case "Enter":
                 MenuPrincipal();
                 List<string> user = display.getUser();
+                createJoueur(user[0]);
                 GameObject.Destroy(o);
                 break;
             case "Play":
@@ -216,10 +227,11 @@ public class InterfaceObject
 
 }
 
-public class iBouton : iComponent
+public class iBoutonFrame : iComponent
 {
     
 }
+
 public class iLoadSaveFrame : iComponent
 {
 
@@ -228,14 +240,16 @@ public class iManageDeckFrame : iComponent
 {
 
 }
-public class iField : iComponent
+
+public class iFormFrame : iComponent
 {
 
 }
+/*
 public class iMessageFrame : iComponent
 {
 
-}
+}*/
 
 public class iComponent
 {
@@ -260,6 +274,9 @@ public class menuDisplay : MonoBehaviour
     bool visible;
     InterfaceObject handObject;
     GameObject hand;
+    private float scrollbarValue;
+    private float scrollbarValue2;
+    public Vector2 scrollPosition = Vector2.zero;
 
     string username = string.Empty;
     string pasworld= string.Empty;
@@ -301,7 +318,7 @@ public class menuDisplay : MonoBehaviour
                 GUILayout.EndVertical();
                     foreach (iComponent compo in gui)
                     {
-                        if (compo.GetType() == typeof(iBouton))
+                        if (compo.GetType() == typeof(iBoutonFrame))
                         {
                             bool temp = GUILayout.Button(compo.getLabel(), GUILayout.Height((Mathf.Floor(boite.height-(Mathf.Floor((boite.height * 10) / 100))) / (gui.Count)-5)));
                             if (temp)
@@ -311,33 +328,72 @@ public class menuDisplay : MonoBehaviour
                         }
                         else if (compo.GetType() == typeof(iLoadSaveFrame))
                         {
-                            float sider = (Mathf.Floor((boite.height * 10) / 100)) * 2;
-                            GUI.Box(new Rect(boite.xMin-5, boite.yMin-5 + (sider / 2), boite.width-10, (boite.height - sider)-5), "");
-                            GUILayout.Box(string.Empty, GUILayout.Height((boite.height - sider)-5));
+                            float sider = (Mathf.Floor((boite.height * 10) / 100));
+                            Rect frame = new Rect(boite.xMin - 5, boite.yMin - 5 + (sider), boite.width - 10, (boite.height - sider) - 5);
+                            Rect loadSaveFrame = new Rect(boite.xMin-5, boite.yMin-5 + (sider), boite.width-10, (boite.height - (sider*2))-5);
+                            GUI.Box(loadSaveFrame, "");
+                            GUILayout.BeginArea(frame, "");
+                            GUILayout.BeginVertical();
+                            GUILayout.BeginHorizontal();
+                            scrollPosition = GUILayout.BeginScrollView(scrollPosition, GUILayout.Width(loadSaveFrame.width), GUILayout.Height(loadSaveFrame.height));
+                            foreach (jeu Jeu in handObject.getJoueur().getJeu())
+                            {
+                                GUILayout.BeginHorizontal();
+                                GUILayout.Button("", GUILayout.Width((loadSaveFrame.width * 20) / 100), GUILayout.Height(loadSaveFrame.height/3));
+                                GUILayout.BeginVertical(GUILayout.Height(loadSaveFrame.height / 3));
+                                GUILayout.FlexibleSpace();
+                                GUILayout.Label("Save Name : " + Jeu.getSaveName());
+                                GUILayout.FlexibleSpace();
+                                GUILayout.Label("Game Turn : " + Jeu.getTurn());
+                                GUILayout.FlexibleSpace();
+                                GUILayout.Label("Played Hero : " + Jeu.getHero());
+                                GUILayout.FlexibleSpace();
+                                GUILayout.EndVertical();
+                                GUILayout.EndHorizontal();
+                            }
+                            GUILayout.EndScrollView();
+                            GUILayout.EndHorizontal();
                             GUILayout.BeginHorizontal();
                             GUILayout.FlexibleSpace();
-                            bool temp = GUILayout.Button("Back", GUILayout.Height((sider / 2)-5), GUILayout.Width((boite.width*20)/100));
+                            bool temp = GUILayout.Button("Back", GUILayout.Height((sider) - 5), GUILayout.Width((boite.width * 20) / 100));
                             if (temp)
                             {
                                 handObject.getbouton("Back", hand);
                             }
                             GUILayout.EndHorizontal();
+                            GUILayout.EndVertical();
+                            GUILayout.EndArea();
                         }
                         else if (compo.GetType() == typeof(iManageDeckFrame))
                         {
-                            float sider = (Mathf.Floor((boite.height * 10) / 100)) * 2;
-                            GUI.Box(new Rect(boite.xMin - 5, boite.yMin - 5 + (sider / 2), boite.width - 10, (boite.height - sider) - 5), "");
-                            GUILayout.Box(string.Empty, GUILayout.Height((boite.height-sider)-5));
+                            float sider = (Mathf.Floor((boite.height * 10) / 100));
+                            Rect frame = new Rect(boite.xMin - 5, boite.yMin - 5 + (sider+10), boite.width - 10, (boite.height - sider));
+                            Rect heroframe = new Rect(boite.xMin - 5, boite.yMin + ((sider*2)+(sider-5)), boite.width - 10, ((boite.height - (sider * 2))/2) - 10);
+                            GUI.Box(heroframe, "");
+                            GUILayout.BeginArea(frame, "");
+                            GUILayout.FlexibleSpace();
+                            GUILayout.BeginVertical();
+                            scrollPosition = GUILayout.BeginScrollView(scrollPosition, GUILayout.Width(heroframe.width), GUILayout.Height(heroframe.height));
+                            GUILayout.BeginHorizontal();
+                            foreach (hero Hero in handObject.getJoueur().getUnlockedHero())
+                            {
+                                GUILayout.Box(Hero.getName(), GUILayout.Width(heroframe.width / 9), GUILayout.Height(heroframe.height-30));
+                            }
+                            GUILayout.EndHorizontal();
+                            GUILayout.EndScrollView();
+                            GUILayout.FlexibleSpace();
                             GUILayout.BeginHorizontal();
                             GUILayout.FlexibleSpace();
-                            bool temp = GUILayout.Button("Back", GUILayout.Height((sider / 2) - 5), GUILayout.Width((boite.width * 20) / 100));
+                            bool temp = GUILayout.Button("Back", GUILayout.Height((sider) - 5), GUILayout.Width((boite.width * 20) / 100));
                             if (temp)
                             {
                                 handObject.getbouton("Back", hand);
                             }
                             GUILayout.EndHorizontal();
+                            GUILayout.EndVertical();
+                            GUILayout.EndArea();
                         }
-                        else if (compo.GetType() == typeof(iField))
+                         if (compo.GetType() == typeof(iFormFrame))
                         {
                             GUILayout.BeginHorizontal("",GUILayout.Width(boite.width));
                             GUILayout.FlexibleSpace();
@@ -362,7 +418,6 @@ public class menuDisplay : MonoBehaviour
        
     }
 
-
     public void SetGUI(GameObject go,InterfaceObject o,List<iComponent> l, Rect b, string n)
     {
         gui = new List<iComponent>();
@@ -375,3 +430,102 @@ public class menuDisplay : MonoBehaviour
     }
 
 }
+
+    public class joueur
+    {
+        List<jeu> listeDesJeux;
+        List<carte> cartestotal;
+        string username;
+        string heroselection;
+        int cardselection;
+        List<hero> unlockedHero;
+
+        public joueur(string s)
+        {
+            listeDesJeux = new List<jeu>();
+            cartestotal = new List<carte>();
+            username = s;
+            unlockedHero = getUnlockedHero();
+            listeDesJeux.Add(new jeu());
+            listeDesJeux.Add(new jeu());
+            listeDesJeux.Add(new jeu());
+            listeDesJeux.Add(new jeu());
+
+        }
+
+        public List<jeu> getJeu()
+        {
+            return listeDesJeux; 
+        }
+
+        public List<hero> getUnlockedHero()
+        {
+            List<hero> temp = new List<hero>();
+            temp.Add(new hero("Raymond"));
+            temp.Add(new hero("Robert"));
+            temp.Add(new hero("Jean-eude"));
+            temp.Add(new hero("François Ferdinand"));
+            temp.Add(new hero("Super Dupond"));
+            temp.Add(new hero("Talon Achile"));
+            temp.Add(new hero("Lagafe Gaston"));
+            temp.Add(new hero("Yukito Kishiro"));
+            temp.Add(new hero("Goldorak"));
+            temp.Add(new hero("Pikachu"));
+            temp.Add(new hero("Bouletator"));
+            temp.Add(new hero("Kapoué"));
+            return temp;
+        }
+
+    }
+
+    public class jeu
+    {
+        string name;
+        int turn;
+        List<hero> gameHeroes;
+        string playedHero;
+        //List<Tuile> map;
+        //List<Entite> entite;
+
+        public string getSaveName()
+        {
+            return name;
+        }
+
+        public int getTurn()
+        {
+            return turn;
+        }
+
+        public string getHero()
+        {
+            return playedHero;
+        }
+
+        public jeu()
+        {
+            name = "random game name";
+            turn = 5;
+            playedHero = "random hero name";
+        }
+    }
+
+    public class carte
+    {
+        bool isUnlocked;
+        int number;
+    }
+    public class hero
+    {
+        string name;
+
+        public hero(string s)
+        {
+            name = s;
+        }
+        public string getName()
+        {
+            return name;
+        }
+    }
+
