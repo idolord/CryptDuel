@@ -16,6 +16,7 @@ public class ConstructeurMenu {
         InterfaceObject menu = new InterfaceObject();
        menu.run();
     }
+
 }
 
 public class InterfaceObject 
@@ -53,12 +54,14 @@ public class InterfaceObject
         return temp;
     }
 
+
+
     void SetbBox()
     {
         switch (this.name)
         {
             case "Login":
-                box = new Rect((w / 2) - ((w / 2) / 2) / 2, (h / 2) - (((h / 2)/2)/2) , (w / 2) / 2, (h / 2)/2);
+                box = new Rect((w / 2) - ((w / 2) / 2) / 2, (h / 2) - (((h / 2)/2)/2) , (w / 2) / 2, Mathf.Max((h / 2)/2,200));
                 break;
             case "Play":
                 box = new Rect((w / 2) - ((w / 2)/2)/2, (h / 2) - ((h / 2) / 2), (w / 2)/2, h / 2);
@@ -72,8 +75,14 @@ public class InterfaceObject
             case "Deck Selection":
                 box = new Rect(w - (w - 10), h - (h - 10), w - 20, h - 20);
                 break;
-            default:
+            case "Manage Deck":
+                box = new Rect(w - (w - 10), h - (h - 10), w - 20, h - 20);
+                break;
+            case "Principal":
                 box = new Rect(w - ((w / 2) / 2), (h / 2) - ((h / 2) / 2), (w / 2)/2, h / 2);
+                break;
+            default:
+                box = new Rect(w - (w - 10), h - (h - 10), w - 20, h - 20);
                 break;
         }
     }
@@ -84,26 +93,28 @@ public class InterfaceObject
         guiMenu = new List<iComponent>();
         name = "Login";
         SetbBox();
+        guiMenu.Add(CreateMenu(name));
         guiMenu.Add(CreateFieldFrame("Username"));
         guiMenu.Add(CreateFieldFrame("Passworld"));
         guiMenu.Add(CreateButonFrame("Enter"));
         display = menuinstance.AddComponent<menuDisplay>();
-        display.SetGUI(menuinstance, this, guiMenu, box, name);
+        display.SetGUI(menuinstance, this, guiMenu, box);
     }
 
     void MenuPrincipal()
     {
         GameObject menuinstance = GameObject.Instantiate(handle) as GameObject;
         guiMenu = new List<iComponent>();
-        name = "principal";
+        name = "Principal";
         SetbBox();
+        guiMenu.Add(CreateMenu(name));
         guiMenu.Add(CreateButonFrame("Play"));
         guiMenu.Add(CreateButonFrame("Load"));
         guiMenu.Add(CreateButonFrame("Manage Deck"));
         guiMenu.Add(CreateButonFrame("Options"));
         guiMenu.Add(CreateButonFrame("Exit"));
         display = menuinstance.AddComponent<menuDisplay>();
-        display.SetGUI(menuinstance, this, guiMenu, box, name);
+        display.SetGUI(menuinstance, this, guiMenu, box);
 
     }
 
@@ -113,11 +124,12 @@ public class InterfaceObject
         guiMenu = new List<iComponent>();
         name = "Play";
         SetbBox();
+        guiMenu.Add(CreateMenu(name));
         guiMenu.Add(CreateButonFrame("Solo"));
         guiMenu.Add(CreateButonFrame("Multi"));
         guiMenu.Add(CreateButonFrame("Back"));
         display = menuinstance.AddComponent<menuDisplay>();
-        display.SetGUI(menuinstance, this, guiMenu, box, name);
+        display.SetGUI(menuinstance, this, guiMenu, box);
     }
 
     void MenuLoad()
@@ -126,20 +138,22 @@ public class InterfaceObject
         guiMenu = new List<iComponent>();
         name = "Load";
         SetbBox();
+        guiMenu.Add(CreateMenu(name));
         guiMenu.Add(CreateiLoadSaveFrame());
         display = menuinstance.AddComponent<menuDisplay>();
-        display.SetGUI(menuinstance, this, guiMenu, box, name);
+        display.SetGUI(menuinstance, this, guiMenu, box);
     }
 
-    void MenuManageDeck()
+    void MenuSelectDeck()
     {
         GameObject menuinstance = GameObject.Instantiate(handle) as GameObject;
         guiMenu = new List<iComponent>();
         name = "Deck Selection";
         SetbBox();
-        guiMenu.Add(CreateManageDeckFrame());
+        guiMenu.Add(CreateMenu(name));
+        guiMenu.Add(CreateDeckSelect());
         display = menuinstance.AddComponent<menuDisplay>();
-        display.SetGUI(menuinstance, this, guiMenu, box, name);
+        display.SetGUI(menuinstance, this, guiMenu, box);
     }
 
     void MenuOptions()
@@ -148,12 +162,26 @@ public class InterfaceObject
         guiMenu = new List<iComponent>();
         name = "Options";
         SetbBox();
+        guiMenu.Add(CreateMenu(name));
         guiMenu.Add(CreateButonFrame("audio"));
         guiMenu.Add(CreateButonFrame("Manage Save"));
         guiMenu.Add(CreateButonFrame("Change User"));
         guiMenu.Add(CreateButonFrame("Back"));
         display = menuinstance.AddComponent<menuDisplay>();
-        display.SetGUI(menuinstance, this, guiMenu, box, name);
+        display.SetGUI(menuinstance, this, guiMenu, box);
+    }
+
+    void MenuManageDeck(string s)
+    {
+        GameObject menuinstance = GameObject.Instantiate(handle) as GameObject;
+        guiMenu = new List<iComponent>();
+        name = "Manage deck : " + s;
+        SetbBox();
+        guiMenu.Add(CreateMenu(name));
+        guiMenu.Add(CreateCardContainer("library",((Screen.width*20)/100)/2,(Screen.height*20)/100));
+        guiMenu.Add(CreateCardContainer("deck",((Screen.width * 20) / 100) / 2, (Screen.height * 60) / 100));
+        display = menuinstance.AddComponent<menuDisplay>();
+        display.SetGUI(menuinstance, this, guiMenu, box);
     }
 
     iBoutonFrame CreateButonFrame(string s)
@@ -163,15 +191,15 @@ public class InterfaceObject
         return temp;
     }
 
-    iComponent CreateiLoadSaveFrame()
+    iLoadSaveFrame CreateiLoadSaveFrame()
     {
         iLoadSaveFrame temp = new iLoadSaveFrame();
         return temp;
     }
 
-    iComponent CreateManageDeckFrame()
+    iDeckSelect CreateDeckSelect()
     {
-        iManageDeckFrame temp = new iManageDeckFrame();
+        iDeckSelect temp = new iDeckSelect();
         return temp;
     }
 
@@ -179,6 +207,26 @@ public class InterfaceObject
     {
         iFormFrame temp = new iFormFrame();
         temp.SetType(s);
+        return temp;
+    }
+
+    iManageDeckFrame CreateManageDeckFram(string s)
+    {
+        iManageDeckFrame temp = new iManageDeckFrame();
+        temp.SetType(s);
+        return temp;
+    }
+
+    iCardContainer CreateCardContainer(string s, int posx, int posy)
+    {
+        iCardContainer temp = new iCardContainer(posx,posy);
+        temp.SetType(s);
+        return temp;
+    }
+    iHeader CreateMenu(string s)
+    {
+        iHeader temp = new iHeader();
+        temp.SetType("Menu : "+ s);
         return temp;
     }
 
@@ -210,7 +258,7 @@ public class InterfaceObject
                 GameObject.Destroy(o);
                 break;
             case "Manage Deck":
-                MenuManageDeck();
+                MenuSelectDeck();
                 GameObject.Destroy(o);
                 break;
             case "Options":
@@ -220,11 +268,14 @@ public class InterfaceObject
             case "Exit":
                 Application.Quit();
                 break;
-            default:
-                break;
         }
     }
 
+    public void getDeck(string s, GameObject o)
+    {
+        MenuManageDeck(s);
+        GameObject.Destroy(o);
+    }
 }
 
 public class iBoutonFrame : iComponent
@@ -236,12 +287,69 @@ public class iLoadSaveFrame : iComponent
 {
 
 }
+public class iDeckSelect : iComponent
+{
+
+}
+public class iCardContainer : iComponent
+{
+    List<carte> contenu;
+    Vector2 position;
+    bool isFocused;
+
+    public iCardContainer(int x, int y)
+    {
+        position = new Vector2(x, y);
+        isFocused = false;
+    }
+
+    public Vector2 getpos()
+    {
+        return position;
+    }
+    public bool getFocus()
+    {
+        return isFocused;
+    }
+
+    public void setFocus(bool b)
+    {
+        isFocused = b;
+    }
+
+    public List<carte> getContenu()
+    {
+        List<carte> temp = new List<carte>();
+        temp.Add(new carte());
+        temp.Add(new carte());
+        temp.Add(new carte());
+        temp.Add(new carte());
+        temp.Add(new carte());
+        temp.Add(new carte());
+        temp.Add(new carte());
+        temp.Add(new carte());
+        temp.Add(new carte());
+        temp.Add(new carte());
+        temp.Add(new carte());
+        temp.Add(new carte());
+        temp.Add(new carte());
+        temp.Add(new carte());
+        temp.Add(new carte());
+        temp.Add(new carte());
+        temp.Add(new carte());
+        temp.Add(new carte());
+        return temp;
+    }
+}
 public class iManageDeckFrame : iComponent
 {
 
 }
-
 public class iFormFrame : iComponent
+{
+
+}
+public class iHeader : iComponent
 {
 
 }
@@ -272,11 +380,13 @@ public class menuDisplay : MonoBehaviour
     Rect boite;
     string interfaceName;
     bool visible;
+    bool isMenu;
     InterfaceObject handObject;
     GameObject hand;
-    private float scrollbarValue;
-    private float scrollbarValue2;
-    public Vector2 scrollPosition = Vector2.zero;
+    public Vector2 scrollPosition1 = Vector2.zero;
+    public Vector2 scrollPosition2 = Vector2.zero;
+    carte focusedCard;
+    Texture2D carteTexture; 
 
     string username = string.Empty;
     string pasworld= string.Empty;
@@ -289,9 +399,16 @@ public class menuDisplay : MonoBehaviour
         return temp;
     }
 
+    void Awake()
+    {
+        carteTexture = (Texture2D)GameObject.Instantiate(Resources.Load("texture/Carte"));
+        TextureScale.Bilinear(carteTexture, (int)((Screen.width*13)/100), (int)(((Screen.width*13)/100)/0.6f));
+    }
+
     public menuDisplay()
     {
         visible = false;
+        isMenu = false;
     }
 
     void Update()
@@ -303,43 +420,49 @@ public class menuDisplay : MonoBehaviour
     {
             if (visible)
             {
-                GUILayout.BeginArea(new Rect(Screen.width - (Screen.width * 10) / 100, Screen.height + 10, Screen.width - (Screen.width * 10) / 100, Screen.height - (Screen.height * 30) / 100));
-                GUILayout.EndArea();
-                GUI.Box(boite,string.Empty);
-                GUILayout.BeginArea(boite);
-                GUILayout.BeginVertical("", GUILayout.Height(Mathf.Floor((boite.height*10)/100)));
-                GUILayout.FlexibleSpace();
-                GUILayout.BeginHorizontal("", GUILayout.Width(boite.width));
-                GUILayout.FlexibleSpace();
-                GUILayout.Label(interfaceName);
-                GUILayout.FlexibleSpace();
-                GUILayout.EndHorizontal();
-                GUILayout.FlexibleSpace();
-                GUILayout.EndVertical();
                     foreach (iComponent compo in gui)
                     {
-                        if (compo.GetType() == typeof(iBoutonFrame))
+                        if (compo.GetType() == typeof(iHeader))
                         {
-                            bool temp = GUILayout.Button(compo.getLabel(), GUILayout.Height((Mathf.Floor(boite.height-(Mathf.Floor((boite.height * 10) / 100))) / (gui.Count)-5)));
+                            isMenu = true;
+                            GUILayout.BeginArea(new Rect(Screen.width - (Screen.width * 10) / 100, Screen.height + 10, Screen.width - (Screen.width * 10) / 100, Screen.height - (Screen.height * 30) / 100));
+                            GUILayout.EndArea();
+                            GUI.Box(boite, string.Empty);
+                            GUILayout.BeginArea(boite);
+                            GUILayout.BeginHorizontal("", GUILayout.Width(boite.width));
+                            GUILayout.FlexibleSpace();
+                            GUILayout.Label(compo.getLabel());
+                            GUILayout.FlexibleSpace();
+                            GUILayout.EndHorizontal();
+                            GUILayout.BeginVertical(GUILayout.Height(boite.height - Mathf.Floor((boite.height * 10) / 100)-10));
+                            GUILayout.FlexibleSpace();
+                        }
+                        else if (compo.GetType() == typeof(iBoutonFrame))
+                        {
+                            bool temp = GUILayout.Button(compo.getLabel(), GUILayout.Height((Mathf.Floor(boite.height - (Mathf.Floor((boite.height * 10) / 100))) / (gui.Count) - 5)));
                             if (temp)
                             {
                                 handObject.getbouton(compo.getLabel(), hand);
-                            } 
+                            }
                         }
                         else if (compo.GetType() == typeof(iLoadSaveFrame))
                         {
                             float sider = (Mathf.Floor((boite.height * 10) / 100));
                             Rect frame = new Rect(boite.xMin - 5, boite.yMin - 5 + (sider), boite.width - 10, (boite.height - sider) - 5);
-                            Rect loadSaveFrame = new Rect(boite.xMin-5, boite.yMin-5 + (sider), boite.width-10, (boite.height - (sider*2))-5);
+                            Rect loadSaveFrame = new Rect(boite.xMin - 5, boite.yMin - 5 + (sider), boite.width - 10, (boite.height - (sider * 2)) - 5);
                             GUI.Box(loadSaveFrame, "");
                             GUILayout.BeginArea(frame, "");
                             GUILayout.BeginVertical();
                             GUILayout.BeginHorizontal();
-                            scrollPosition = GUILayout.BeginScrollView(scrollPosition, GUILayout.Width(loadSaveFrame.width), GUILayout.Height(loadSaveFrame.height));
+                            scrollPosition1 = GUILayout.BeginScrollView(scrollPosition1, GUILayout.Width(loadSaveFrame.width), GUILayout.Height(loadSaveFrame.height));
                             foreach (jeu Jeu in handObject.getJoueur().getJeu())
                             {
                                 GUILayout.BeginHorizontal();
-                                GUILayout.Button("", GUILayout.Width((loadSaveFrame.width * 20) / 100), GUILayout.Height(loadSaveFrame.height/3));
+                                bool tempGame = GUILayout.Button("", GUILayout.Width((loadSaveFrame.width * 20) / 100), GUILayout.Height(loadSaveFrame.height / 3));
+                                if (tempGame)
+                                {
+                                    handObject.getbouton(Jeu.getSaveName(), hand);
+                                }
                                 GUILayout.BeginVertical(GUILayout.Height(loadSaveFrame.height / 3));
                                 GUILayout.FlexibleSpace();
                                 GUILayout.Label("Save Name : " + Jeu.getSaveName());
@@ -364,27 +487,31 @@ public class menuDisplay : MonoBehaviour
                             GUILayout.EndVertical();
                             GUILayout.EndArea();
                         }
-                        else if (compo.GetType() == typeof(iManageDeckFrame))
+                        else if (compo.GetType() == typeof(iDeckSelect))
                         {
                             float sider = (Mathf.Floor((boite.height * 10) / 100));
-                            Rect frame = new Rect(boite.xMin - 5, boite.yMin - 5 + (sider+10), boite.width - 10, (boite.height - sider));
-                            Rect heroframe = new Rect(boite.xMin - 5, boite.yMin + ((sider*2)+(sider-5)), boite.width - 10, ((boite.height - (sider * 2))/2) - 10);
+                            Rect frame = new Rect(boite.xMin - 5, boite.yMin - 5 + (sider + 10), boite.width - 10, (boite.height - sider) - 20);
+                            Rect heroframe = new Rect(boite.xMin - 5, boite.yMin - 5 + (((sider - 5) * 2) + (sider - 5)), boite.width - 10, ((boite.height - (sider * 2)) / 2) - 5);
                             GUI.Box(heroframe, "");
                             GUILayout.BeginArea(frame, "");
                             GUILayout.FlexibleSpace();
                             GUILayout.BeginVertical();
-                            scrollPosition = GUILayout.BeginScrollView(scrollPosition, GUILayout.Width(heroframe.width), GUILayout.Height(heroframe.height));
+                            scrollPosition1 = GUILayout.BeginScrollView(scrollPosition1, GUILayout.Width(heroframe.width), GUILayout.Height(heroframe.height));
                             GUILayout.BeginHorizontal();
                             foreach (hero Hero in handObject.getJoueur().getUnlockedHero())
                             {
-                                GUILayout.Box(Hero.getName(), GUILayout.Width(heroframe.width / 9), GUILayout.Height(heroframe.height-30));
+                                bool temphero = GUILayout.Button(Hero.getName(), GUILayout.Width(heroframe.width / 9), GUILayout.Height(heroframe.height - 30));
+                                if (temphero)
+                                {
+                                    handObject.getDeck(Hero.getName(), hand);
+                                }
                             }
                             GUILayout.EndHorizontal();
                             GUILayout.EndScrollView();
                             GUILayout.FlexibleSpace();
                             GUILayout.BeginHorizontal();
                             GUILayout.FlexibleSpace();
-                            bool temp = GUILayout.Button("Back", GUILayout.Height((sider) - 5), GUILayout.Width((boite.width * 20) / 100));
+                            bool temp = GUILayout.Button("Back", GUILayout.Height((sider) - 10), GUILayout.Width((boite.width * 20) / 100));
                             if (temp)
                             {
                                 handObject.getbouton("Back", hand);
@@ -395,11 +522,10 @@ public class menuDisplay : MonoBehaviour
                         }
                          if (compo.GetType() == typeof(iFormFrame))
                         {
-                            GUILayout.BeginHorizontal("",GUILayout.Width(boite.width));
+                            GUILayout.BeginVertical("", GUILayout.Width(boite.width), GUILayout.Height((Mathf.Floor(boite.height - (Mathf.Floor((boite.height * 10) / 100)))-5)/gui.Count));
                             GUILayout.FlexibleSpace();
                             GUILayout.Label(compo.getLabel());
                             GUILayout.FlexibleSpace();
-                            GUILayout.EndHorizontal();
                             if (compo.getLabel() == "Username")
                             {
                                 username = GUILayout.TextField(username, 25);
@@ -408,22 +534,73 @@ public class menuDisplay : MonoBehaviour
                             {
                                 pasworld = GUILayout.PasswordField(pasworld,"*"[0]);
                             }
+                            GUILayout.FlexibleSpace();
+                            GUILayout.EndVertical();
                         }
-
+                         if (compo.GetType() == typeof(iCardContainer))
+                         {
+                                 iCardContainer temp = compo as iCardContainer;
+                                 Vector2 position = temp.getpos();
+                                 GUI.Box(new Rect(position.x, position.y + (((Screen.height * 30) / 100) / 2), ((Screen.width * 80) / 100), (((Screen.height * 30) / 100) / 2)), "");
+                                 if (!temp.getFocus())
+                                 {
+                                     GUILayout.BeginArea(new Rect(position.x, position.y + 10, (Screen.width * 80) / 100, ((Screen.height * 30) / 100) + 10));
+                                     if (compo.getLabel() == "deck" || compo.getLabel() == "Hand")
+                                     {
+                                         scrollPosition1 = GUILayout.BeginScrollView(scrollPosition1);
+                                     }
+                                     else
+                                     {
+                                         scrollPosition2 = GUILayout.BeginScrollView(scrollPosition2);
+                                     }
+                                     GUILayout.BeginHorizontal();
+                                     for (int x = 0; x < temp.getContenu().Count; x++)
+                                     {
+                                         bool interactTemp = GUILayout.Button(temp.getContenu()[x].getName(), GUILayout.Width(((Screen.width * 90) / 100) / 10), GUILayout.Height(((Screen.height * 30) / 100) - 20));
+                                         if (interactTemp)
+                                         {
+                                             focusedCard = temp.getContenu()[x];
+                                             Debug.Log("boutton carte " + temp.getContenu()[x].getName() + " pressé");
+                                             temp.setFocus(true);
+                                         }
+                                     }
+                                     GUILayout.EndHorizontal();
+                                     GUILayout.EndScrollView();
+                                     GUILayout.EndArea();
+                                 }
+                                 else
+                                 {
+                                     GUILayout.BeginArea(new Rect(((Screen.width - (Screen.width * 13) / 100)/2), (position.y-((((Screen.width * 13) / 100) / 0.5f))/5), ((Screen.width * 13) / 100)+10, (((Screen.width * 13) / 100) / 0.5f)-10));
+                                     GUILayout.BeginHorizontal(GUILayout.Width(Screen.width));
+                                     GUILayout.Box(carteTexture);
+                                     GUILayout.BeginVertical(GUILayout.Height((((Screen.width * 15) / 100) / 0.5f)));
+                                     GUILayout.EndVertical();
+                                     GUILayout.FlexibleSpace();
+                                     GUILayout.EndHorizontal();
+                                     GUILayout.EndArea();
+                                 }
+                         }
                     }
-                
-                GUILayout.EndArea();
-
+                    if (isMenu)
+                    {
+                        GUILayout.FlexibleSpace();
+                        GUILayout.EndVertical(); 
+                        GUILayout.EndArea();
+                    }
             } 
        
     }
 
-    public void SetGUI(GameObject go,InterfaceObject o,List<iComponent> l, Rect b, string n)
+    public void aficherMessage()
+    {
+
+    }
+
+    public void SetGUI(GameObject go,InterfaceObject o,List<iComponent> l, Rect b)
     {
         gui = new List<iComponent>();
         gui = l;
         boite = b;
-        interfaceName = n;
         handObject = o;
         hand = go;
         visible = true;
@@ -511,9 +688,15 @@ public class menuDisplay : MonoBehaviour
     }
 
     public class carte
-    {
+    { 
         bool isUnlocked;
         int number;
+        string name;
+
+        public string getName ()
+        {
+            return name;
+        }
     }
     public class hero
     {
