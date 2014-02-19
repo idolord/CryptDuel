@@ -6,56 +6,82 @@ using System;
 
 public class ConstructeurMenu {
 
+    // cette classe instancie et lance le menu
+
+    // pour initialiser le menu
     public void initialise()
     {
         CreateInterface();
     }
 
+    //instanciation et lancement du menu
     void CreateInterface()
     {
+        //instanciation
         InterfaceObject menu = new InterfaceObject();
-       menu.run();
+
+        //lancement
+        menu.run();
     }
 
 }
 
 public class InterfaceObject 
 {
+    // cette classe rerésente l'objet interface, elle n'est que structurelle et représente la structure de l'interface avec:
 
+    // la taille de l'écran
     static int w = Screen.width;
     static int h = Screen.height;
-    public string name;
-    Rect box;
-    GameObject handle = new GameObject();
-    public List<iComponent> guiMenu;
-    menuDisplay display;
-    joueur Joueur;
-    string username;
-    string pasworld;
 
+    //le nom de l'interface
+    public string name;
+
+    // une boite rectangulaire pour y afficher le contenu du menu en cour
+    Rect box;
+
+    // le gameobject sur lequel on ajoutera le monobehaviour pour récuperer les interactions
+    GameObject handle = new GameObject();
+
+    // une liste des composants virtuels de l'interface
+    public List<iComponent> guiMenu;
+
+    // une ancre vers les composant qui afiche l'interface, attaché au GameObject sus-mentioné
+    menuDisplay display;
+
+    // une ancre vers le joueur que l'interface instancie aprés le login
+    joueur Joueur;
+
+    // un string contenant le nom de l'utilisateur
+    string username;
+
+    // fonction pour acceder au joueur depuis l'exterieur
     public joueur getJoueur ()
     {
         return Joueur;
     }
 
+    // fonction pour creer le joueur et attribuer le username en fonction
     void createJoueur(string s)
     {
         Joueur = new joueur(s);
+        username = s;
     }
 
+    // fonction d'initialisation de l'object interface: affiche le login
     public void run()
     {
         login();
     }
 
+    // fonction pour acceder au composant d'affichage du gameobject soumis
     public menuDisplay GetDisplay(GameObject o)
     {
         menuDisplay temp = o.GetComponent<menuDisplay>();
         return temp;
     }
 
-
-
+    // fonction pour définir la boite d'affichage en fonction du nom de l'interface
     void SetbBox()
     {
         switch (this.name)
@@ -87,6 +113,7 @@ public class InterfaceObject
         }
     }
 
+    // fonction pour creer une interface de type "Login"
     void login()
     {
         GameObject menuinstance = GameObject.Instantiate(handle) as GameObject;
@@ -101,6 +128,7 @@ public class InterfaceObject
         display.SetGUI(menuinstance, this, guiMenu, box);
     }
 
+    // fonction pour creer une interface de type "Principal"
     void MenuPrincipal()
     {
         GameObject menuinstance = GameObject.Instantiate(handle) as GameObject;
@@ -115,9 +143,14 @@ public class InterfaceObject
         guiMenu.Add(CreateButonFrame("Exit"));
         display = menuinstance.AddComponent<menuDisplay>();
         display.SetGUI(menuinstance, this, guiMenu, box);
-
+        List<string> message = new List<string>();
+        message.Add("Welcome, " + username);
+        message.Add("CreepyCaveStudio's team hope you'll enjoy you'r Crypt Duel experience");
+        message.Add("Have fun time palying it, come have a talk on our forum sometime.");
+        display.showMessage(message);
     }
 
+    // fonction pour creer une interface de type "Play"
     void MenuPlay()
     {
         GameObject menuinstance = GameObject.Instantiate(handle) as GameObject;
@@ -132,6 +165,7 @@ public class InterfaceObject
         display.SetGUI(menuinstance, this, guiMenu, box);
     }
 
+    // fonction pour creer une interface de type "Load"
     void MenuLoad()
     {
         GameObject menuinstance = GameObject.Instantiate(handle) as GameObject;
@@ -144,6 +178,7 @@ public class InterfaceObject
         display.SetGUI(menuinstance, this, guiMenu, box);
     }
 
+    // fonction pour creer une interface de type "DeckSelect"
     void MenuSelectDeck()
     {
         GameObject menuinstance = GameObject.Instantiate(handle) as GameObject;
@@ -156,6 +191,7 @@ public class InterfaceObject
         display.SetGUI(menuinstance, this, guiMenu, box);
     }
 
+    // fonction pour creer une interface de type "Options"
     void MenuOptions()
     {
         GameObject menuinstance = GameObject.Instantiate(handle) as GameObject;
@@ -171,6 +207,7 @@ public class InterfaceObject
         display.SetGUI(menuinstance, this, guiMenu, box);
     }
 
+    // fonction pour creer une interface de type "MangeDeck"
     void MenuManageDeck(string s)
     {
         GameObject menuinstance = GameObject.Instantiate(handle) as GameObject;
@@ -184,6 +221,7 @@ public class InterfaceObject
         display.SetGUI(menuinstance, this, guiMenu, box);
     }
 
+    // fonction pour créer un bouton
     iBoutonFrame CreateButonFrame(string s)
     {
         iBoutonFrame temp = new iBoutonFrame();
@@ -191,18 +229,21 @@ public class InterfaceObject
         return temp;
     }
 
+    // fonction pour créer l'interface de chargement/sauvegarde
     iLoadSaveFrame CreateiLoadSaveFrame()
     {
         iLoadSaveFrame temp = new iLoadSaveFrame();
         return temp;
     }
 
+    // fonction pour créer l'interface de selection de deck
     iDeckSelect CreateDeckSelect()
     {
         iDeckSelect temp = new iDeckSelect();
         return temp;
     }
 
+    // fonction pour créer l'interface login
     iFormFrame CreateFieldFrame(string s)
     {
         iFormFrame temp = new iFormFrame();
@@ -210,6 +251,7 @@ public class InterfaceObject
         return temp;
     }
 
+    // fonction pour créer l'interface manage deck
     iManageDeckFrame CreateManageDeckFram(string s)
     {
         iManageDeckFrame temp = new iManageDeckFrame();
@@ -217,12 +259,15 @@ public class InterfaceObject
         return temp;
     }
 
+    // fonction pour créer un contenair a carte
     iCardContainer CreateCardContainer(string s, int posx, int posy)
     {
         iCardContainer temp = new iCardContainer(posx,posy);
         temp.SetType(s);
         return temp;
     }
+
+    // fonction pour créer la frame d'un menu
     iHeader CreateMenu(string s)
     {
         iHeader temp = new iHeader();
@@ -230,19 +275,21 @@ public class InterfaceObject
         return temp;
     }
 
+    // fonction pour récuperer le nom de l'interface
     public string getName()
     {
         return name;
     }
 
+    // fonction de gession des evenement de type boutton
     public void getbouton(string s, GameObject o)
     {
         switch (s)
         {
             case "Enter":
-                MenuPrincipal();
                 List<string> user = display.getUser();
                 createJoueur(user[0]);
+                MenuPrincipal();
                 GameObject.Destroy(o);
                 break;
             case "Play":
@@ -271,6 +318,7 @@ public class InterfaceObject
         }
     }
 
+    // fonction de gession  de selection de hero
     public void getDeck(string s, GameObject o)
     {
         MenuManageDeck(s);
@@ -278,45 +326,62 @@ public class InterfaceObject
     }
 }
 
+// composant d'interface de type bouton 
 public class iBoutonFrame : iComponent
 {
     
 }
 
+// composant d'interface de type loadSave 
 public class iLoadSaveFrame : iComponent
 {
 
 }
+
+// composant d'interface de type deck select
 public class iDeckSelect : iComponent
 {
 
 }
+
+// composant d'interface de type contenair a carte
 public class iCardContainer : iComponent
 {
+    // contenu du contenair
     List<carte> contenu;
+
+    // position du contenair
     Vector2 position;
+
+    // variable qui retourne vrais si une carte est séléctionée dans le contenair
     bool isFocused;
 
+    // à la création du contenair on  doit lui fournir une position, par défaut aucune carte n'est séléctionée
     public iCardContainer(int x, int y)
     {
         position = new Vector2(x, y);
         isFocused = false;
     }
 
+    // fonction pour récuperer la position du contenair
     public Vector2 getpos()
     {
         return position;
     }
+
+    // fonction pour récuperer l'état isFocused
     public bool getFocus()
     {
         return isFocused;
     }
 
+    // fonction pour définir l'état isFocused
     public void setFocus(bool b)
     {
         isFocused = b;
     }
 
+    // fonction pour récuperer le contenu du contenair
     public List<carte> getContenu()
     {
         List<carte> temp = new List<carte>();
@@ -341,24 +406,26 @@ public class iCardContainer : iComponent
         return temp;
     }
 }
+
+// composant d'interface de type management de deck
 public class iManageDeckFrame : iComponent
 {
 
 }
+
+// composant d'interface de type login
 public class iFormFrame : iComponent
 {
 
 }
+
+// composant d'interface de type titre d'interface
 public class iHeader : iComponent
 {
 
 }
-/*
-public class iMessageFrame : iComponent
-{
 
-}*/
-
+// classe de composant d'interface
 public class iComponent
 {
     string label;
@@ -374,23 +441,51 @@ public class iComponent
     }
 }
 
+// classe d'afichage
 public class menuDisplay : MonoBehaviour
 {
+    //liste des composant de l'interface
     List<iComponent> gui;
+
+    // boite dans laquel aficher les composants 
     Rect boite;
+
+    // nom de l'interface
     string interfaceName;
+
+    // état de visibilité de l'interface
     bool visible;
+
+    // type de l'interface
     bool isMenu;
+
+    // ancre vers l' interfaceobject lié a cet afichage 
     InterfaceObject handObject;
+
+    // ancre vers le gameobject sur lequel est situé ce menudisplay
     GameObject hand;
+
+    // variables pour les scroll
     public Vector2 scrollPosition1 = Vector2.zero;
     public Vector2 scrollPosition2 = Vector2.zero;
+
+    // variable qui retourne la carte selectionée
     carte focusedCard;
-    Texture2D carteTexture; 
 
-    string username = string.Empty;
-    string pasworld= string.Empty;
+    // texture de carte
+    Texture2D carteTexture;
 
+    // ofset pour l'afichage de messages
+    int messageYOfset = 0;
+
+    // texte du message
+    List<string> messagetext;
+
+    // variable du login forme
+    string username;
+    string pasworld;
+
+    // fonction pour récuperer les valeurs du login forme
     public List<string> getUser ()
     {
         List<string> temp = new List<string>();
@@ -399,62 +494,128 @@ public class menuDisplay : MonoBehaviour
         return temp;
     }
 
-    void Awake()
+    // fonction pour faire apparaitre le message puis l'éffacer
+    IEnumerator ofsetMessage()
     {
-        carteTexture = (Texture2D)GameObject.Instantiate(Resources.Load("texture/Carte"));
-        TextureScale.Bilinear(carteTexture, (int)((Screen.width*13)/100), (int)(((Screen.width*13)/100)/0.6f));
+       
+            while (messageYOfset<20)
+            {
+                messageYOfset += 1;
+                yield return null;
+            }
+            yield return new WaitForSeconds(10.0f);
+            while (messageYOfset > 0)
+            {
+                messageYOfset -= 1;
+                yield return null;
+            }
+
+        
     }
 
+    // fonction pour afficher une liste de string 
+    public void showMessage(List<string> s)
+    {
+        messagetext = s;
+        StartCoroutine(ofsetMessage());
+    }
+
+    // initialistaion de l'affichage à sa construction
+    void Awake()
+    {
+        // on instancie les images de carte
+        carteTexture = (Texture2D)GameObject.Instantiate(Resources.Load("texture/Carte"));
+
+        // on les scale
+        TextureScale.Bilinear(carteTexture, (int)((Screen.width*13)/100), (int)(((Screen.width*13)/100)/0.6f));
+        
+        // on initialise messagetext et les variables utilisateur
+        messagetext = new List<string>();
+        username = "";
+        pasworld = "";
+    }
+
+    // par défaut le display n'est pas de type menu et est caché 
     public menuDisplay()
     {
         visible = false;
         isMenu = false;
     }
 
-    void Update()
-    {
-       
-    }
-
+    // fonction d'afichage de l'interface
     void OnGUI()
     {
+        //si l'interface est visible
             if (visible)
             {
+                // on crée l'emplacement de la boite d'afichage de message
+                GUI.Box(new Rect(Screen.width - ((Screen.width * 91) / 100), (-((Screen.height * 20) / 100)) + ((Screen.height * messageYOfset) / 100), (Screen.width * 42) / 100, Screen.height - ((Screen.height * 80) / 100)), "");
+                GUILayout.BeginArea(new Rect(Screen.width - ((Screen.width * 90) / 100), (-((Screen.height * 20) / 100)) + ((Screen.height * messageYOfset) / 100), (Screen.width * 40) / 100, Screen.height - ((Screen.height * 80) / 100)));
+                GUILayout.BeginVertical();
+                GUILayout.FlexibleSpace();
+                foreach (string text in messagetext)
+                {
+                    GUILayout.Label(text);
+                }
+                GUILayout.FlexibleSpace();
+                GUILayout.EndVertical();
+                GUILayout.EndArea();
+
+                //ensuite
+
+                // pour chaque composant de l'interface
                     foreach (iComponent compo in gui)
                     {
+                        // s'il est de type titre
                         if (compo.GetType() == typeof(iHeader))
                         {
+                            // l'interface est de type menu
                             isMenu = true;
-                            GUILayout.BeginArea(new Rect(Screen.width - (Screen.width * 10) / 100, Screen.height + 10, Screen.width - (Screen.width * 10) / 100, Screen.height - (Screen.height * 30) / 100));
-                            GUILayout.EndArea();
+
+                            // aficheage de la boite de l'interface
                             GUI.Box(boite, string.Empty);
+
+                            //afichage du tytre de l'interface, centrée
                             GUILayout.BeginArea(boite);
                             GUILayout.BeginHorizontal("", GUILayout.Width(boite.width));
                             GUILayout.FlexibleSpace();
                             GUILayout.Label(compo.getLabel());
                             GUILayout.FlexibleSpace();
                             GUILayout.EndHorizontal();
+
+                            //on commence un block d'afichage vertical
                             GUILayout.BeginVertical(GUILayout.Height(boite.height - Mathf.Floor((boite.height * 10) / 100)-10));
                             GUILayout.FlexibleSpace();
                         }
+                        // s'il est de type bouton 
                         else if (compo.GetType() == typeof(iBoutonFrame))
                         {
+                            // on crée un bouton
                             bool temp = GUILayout.Button(compo.getLabel(), GUILayout.Height((Mathf.Floor(boite.height - (Mathf.Floor((boite.height * 10) / 100))) / (gui.Count) - 5)));
+                            //si le bouton est cliqué 
                             if (temp)
                             {
+                                // on demande à l'interfaceobject de gérer l'événement
                                 handObject.getbouton(compo.getLabel(), hand);
                             }
                         }
+                        //s'il est de type loadsave
                         else if (compo.GetType() == typeof(iLoadSaveFrame))
                         {
+                            
                             float sider = (Mathf.Floor((boite.height * 10) / 100));
+                            // on définis la forme du menu (zone + bouton)
                             Rect frame = new Rect(boite.xMin - 5, boite.yMin - 5 + (sider), boite.width - 10, (boite.height - sider) - 5);
+                            // on définis la zone d'afichage des sauvegarde
                             Rect loadSaveFrame = new Rect(boite.xMin - 5, boite.yMin - 5 + (sider), boite.width - 10, (boite.height - (sider * 2)) - 5);
+                            // on désine une boite
                             GUI.Box(loadSaveFrame, "");
+                            // on commence un zone
                             GUILayout.BeginArea(frame, "");
                             GUILayout.BeginVertical();
                             GUILayout.BeginHorizontal();
                             scrollPosition1 = GUILayout.BeginScrollView(scrollPosition1, GUILayout.Width(loadSaveFrame.width), GUILayout.Height(loadSaveFrame.height));
+                            // pour chaque sauvegarde du joueur on l'affiche
                             foreach (jeu Jeu in handObject.getJoueur().getJeu())
                             {
                                 GUILayout.BeginHorizontal();
@@ -476,8 +637,10 @@ public class menuDisplay : MonoBehaviour
                             }
                             GUILayout.EndScrollView();
                             GUILayout.EndHorizontal();
+                            //fin de la zone d'afichage des sauvegarde
                             GUILayout.BeginHorizontal();
                             GUILayout.FlexibleSpace();
+                            // bouton retour
                             bool temp = GUILayout.Button("Back", GUILayout.Height((sider) - 5), GUILayout.Width((boite.width * 20) / 100));
                             if (temp)
                             {
@@ -487,6 +650,7 @@ public class menuDisplay : MonoBehaviour
                             GUILayout.EndVertical();
                             GUILayout.EndArea();
                         }
+                        // s'il est de type deckselect
                         else if (compo.GetType() == typeof(iDeckSelect))
                         {
                             float sider = (Mathf.Floor((boite.height * 10) / 100));
@@ -498,6 +662,7 @@ public class menuDisplay : MonoBehaviour
                             GUILayout.BeginVertical();
                             scrollPosition1 = GUILayout.BeginScrollView(scrollPosition1, GUILayout.Width(heroframe.width), GUILayout.Height(heroframe.height));
                             GUILayout.BeginHorizontal();
+                            //on afiche chaque hero débloqué par le joueur 
                             foreach (hero Hero in handObject.getJoueur().getUnlockedHero())
                             {
                                 bool temphero = GUILayout.Button(Hero.getName(), GUILayout.Width(heroframe.width / 9), GUILayout.Height(heroframe.height - 30));
@@ -511,6 +676,7 @@ public class menuDisplay : MonoBehaviour
                             GUILayout.FlexibleSpace();
                             GUILayout.BeginHorizontal();
                             GUILayout.FlexibleSpace();
+                            // bouton retour
                             bool temp = GUILayout.Button("Back", GUILayout.Height((sider) - 10), GUILayout.Width((boite.width * 20) / 100));
                             if (temp)
                             {
@@ -520,8 +686,10 @@ public class menuDisplay : MonoBehaviour
                             GUILayout.EndVertical();
                             GUILayout.EndArea();
                         }
+                        // si il est de type login
                          if (compo.GetType() == typeof(iFormFrame))
                         {
+                            // on afiche les menu login
                             GUILayout.BeginVertical("", GUILayout.Width(boite.width), GUILayout.Height((Mathf.Floor(boite.height - (Mathf.Floor((boite.height * 10) / 100)))-5)/gui.Count));
                             GUILayout.FlexibleSpace();
                             GUILayout.Label(compo.getLabel());
@@ -537,6 +705,7 @@ public class menuDisplay : MonoBehaviour
                             GUILayout.FlexibleSpace();
                             GUILayout.EndVertical();
                         }
+                        // si il est de type afichage de contenair de carte
                          if (compo.GetType() == typeof(iCardContainer))
                          {
                                  iCardContainer temp = compo as iCardContainer;
@@ -581,6 +750,7 @@ public class menuDisplay : MonoBehaviour
                                  }
                          }
                     }
+                    // si le display est de type menu, on ferme la zone titre
                     if (isMenu)
                     {
                         GUILayout.FlexibleSpace();
@@ -591,11 +761,7 @@ public class menuDisplay : MonoBehaviour
        
     }
 
-    public void aficherMessage()
-    {
-
-    }
-
+    //fonction pour définir un gui et l'aficher
     public void SetGUI(GameObject go,InterfaceObject o,List<iComponent> l, Rect b)
     {
         gui = new List<iComponent>();
