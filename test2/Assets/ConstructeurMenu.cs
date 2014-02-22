@@ -385,24 +385,10 @@ public class iCardContainer : iComponent
     public List<carte> getContenu()
     {
         List<carte> temp = new List<carte>();
-        temp.Add(new carte());
-        temp.Add(new carte());
-        temp.Add(new carte());
-        temp.Add(new carte());
-        temp.Add(new carte());
-        temp.Add(new carte());
-        temp.Add(new carte());
-        temp.Add(new carte());
-        temp.Add(new carte());
-        temp.Add(new carte());
-        temp.Add(new carte());
-        temp.Add(new carte());
-        temp.Add(new carte());
-        temp.Add(new carte());
-        temp.Add(new carte());
-        temp.Add(new carte());
-        temp.Add(new carte());
-        temp.Add(new carte());
+        for (int i = 0; i < 30; i++)
+        {
+            temp.Add(new carte());
+        }
         return temp;
     }
 }
@@ -474,6 +460,8 @@ public class menuDisplay : MonoBehaviour
 
     // texture de carte
     Texture2D carteTexture;
+    Texture2D scaledhand;
+    Texture2D scaledfocus;
 
     // ofset pour l'afichage de messages
     int messageYOfset = 0;
@@ -525,15 +513,20 @@ public class menuDisplay : MonoBehaviour
     {
         // on instancie les images de carte
         carteTexture = (Texture2D)GameObject.Instantiate(Resources.Load("texture/Carte"));
-
-        // on les scale
-        TextureScale.Bilinear(carteTexture, (int)((Screen.width*13)/100), (int)(((Screen.width*13)/100)/0.6f));
+        TextureScale.Bilinear(carteTexture, (int)((Screen.width * 15) / 100), (int)(((Screen.width * 15) / 100) / 0.6f));
+        scaledfocus = carteTexture;
+        //Destroy(carteTexture);
+        carteTexture = (Texture2D)GameObject.Instantiate(Resources.Load("texture/Carte"));
+        TextureScale.Bilinear(carteTexture, ((Screen.width * 90) / 100) / 10, ((Screen.height * 30) / 100) - 20);
+        scaledhand = carteTexture;
+        //Destroy(carteTexture);
         
         // on initialise messagetext et les variables utilisateur
         messagetext = new List<string>();
         username = "";
         pasworld = "";
     }
+
 
     // par défaut le display n'est pas de type menu et est caché 
     public menuDisplay()
@@ -550,7 +543,7 @@ public class menuDisplay : MonoBehaviour
             {
                 // on crée l'emplacement de la boite d'afichage de message
                 GUI.Box(new Rect(Screen.width - ((Screen.width * 91) / 100), (-((Screen.height * 20) / 100)) + ((Screen.height * messageYOfset) / 100), (Screen.width * 42) / 100, Screen.height - ((Screen.height * 80) / 100)), "");
-                GUILayout.BeginArea(new Rect(Screen.width - ((Screen.width * 90) / 100), (-((Screen.height * 20) / 100)) + ((Screen.height * messageYOfset) / 100), (Screen.width * 40) / 100, Screen.height - ((Screen.height * 80) / 100)));
+                GUILayout.BeginArea(new Rect(Screen.width - ((Screen.width * 90) / 100), (-((Screen.height * 20) / 100)) + ((Screen.height * messageYOfset) / 100), (Screen.width * 42) / 100, Screen.height - ((Screen.height * 80) / 100)));
                 GUILayout.BeginVertical();
                 GUILayout.FlexibleSpace();
                 foreach (string text in messagetext)
@@ -725,7 +718,7 @@ public class menuDisplay : MonoBehaviour
                                      GUILayout.BeginHorizontal();
                                      for (int x = 0; x < temp.getContenu().Count; x++)
                                      {
-                                         bool interactTemp = GUILayout.Button(temp.getContenu()[x].getName(), GUILayout.Width(((Screen.width * 90) / 100) / 10), GUILayout.Height(((Screen.height * 30) / 100) - 20));
+                                         bool interactTemp = GUILayout.Button(scaledhand, GUILayout.Width(((Screen.width * 90) / 100) / 10), GUILayout.Height(((Screen.height * 30) / 100) - 20));
                                          if (interactTemp)
                                          {
                                              focusedCard = temp.getContenu()[x];
@@ -739,10 +732,10 @@ public class menuDisplay : MonoBehaviour
                                  }
                                  else
                                  {
-                                     GUILayout.BeginArea(new Rect(((Screen.width - (Screen.width * 13) / 100)/2), (position.y-((((Screen.width * 13) / 100) / 0.5f))/5), ((Screen.width * 13) / 100)+10, (((Screen.width * 13) / 100) / 0.5f)-10));
+                                     GUILayout.BeginArea(new Rect((Screen.width/2) - (scaledfocus.width/ 2), position.y-(scaledfocus.height/2)+45, scaledfocus.width +10, scaledfocus.height +10));
                                      GUILayout.BeginHorizontal(GUILayout.Width(Screen.width));
-                                     GUILayout.Box(carteTexture);
-                                     GUILayout.BeginVertical(GUILayout.Height((((Screen.width * 15) / 100) / 0.5f)));
+                                     GUILayout.Box(scaledfocus);
+                                     GUILayout.BeginVertical(GUILayout.Height((((Screen.width * 15) / 100) / 0.6f)));
                                      GUILayout.EndVertical();
                                      GUILayout.FlexibleSpace();
                                      GUILayout.EndHorizontal();
@@ -858,11 +851,17 @@ public class menuDisplay : MonoBehaviour
         bool isUnlocked;
         int number;
         string name;
+        private Texture2D inCont;
+        public Texture2D InCont { get; set; }
+        private Texture2D focussed;
+        public Texture2D Focussed { get; set; }
 
         public string getName ()
         {
             return name;
         }
+
+         
     }
     public class hero
     {
