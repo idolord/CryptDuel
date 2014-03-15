@@ -1,0 +1,29 @@
+Ce document contient les règles générales du projet CryptDuel.
+S'il manque quelque chose, ou qu'une partie n'est pas claire, n'hésitez pas à me le faire savoir.
+
+##NOMINATION##
+#Forme
+	_myField	: Champs "privés"
+	myField		: Champs "locaux"
+	MyField		: Tout le reste (class, champs "public", namespaces...)
+	AMyClass	: Classes abstraites
+	IMyClass	: Interfaces
+#Fond
+	-Le code doit être écris en anglais.
+	Mieux vaut des noms longs mais explicites que court et incompréhensible.
+	L'autocomplétion de Visual Studio est assez puissante pour se le permettre.
+	Vector2 pos1, pos2, pos3; // Pas bien!
+	Vector2 positionPlayer1, positionPlayer2, positionPlayer3; //Good
+	
+##LE CODE EN GÉNÉRAL##
+	-Le mot clé "private" doit être écris.
+	-Éviter le mélange des Champs privés et publiques au sein d'une classe.
+	-Pas de déclaration de plusieurs variables sur une ligne. (Pour la lisibilité du code)
+	-Pas d'assignation de variables directement dans les classes; Les assignations se font dans des fonctions.
+	-N'éhistez pas à documenter vos fonctions, laissez du commentaire. (En francais hein :p)
+
+##Architecture MVC##
+	Pour les classes qui sont sous la forme MVC:
+	-"Data" en fin de nom pour les classes de données (ex: GameData)
+	-"Manager" en fin de nom pour les classes de contrôle (ex: GameManager)
+	
