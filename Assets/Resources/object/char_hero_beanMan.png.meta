@@ -1,0 +1,135 @@
+fileFormatVersion: 2
+guid: 57e9d2a2469a5bf4397e0dbad73ae5d4
+TextureImporter:
+  serializedVersion: 2
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    linearTexture: 0
+    correctGamma: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: .25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 0
+  seamlessCubemap: 0
+  textureFormat: -1
+  maxTextureSize: 1024
+  textureSettings:
+    filterMode: -1
+    aniso: 1
+    mipBias: -1
+    wrapMode: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: .5, y: .5}
+  spritePixelsToUnits: 100
+  alphaIsTransparency: 1
+  textureType: 8
+  buildTargetSettings: []
+  spriteSheet:
+    sprites:
+    - name: char_hero_beanMan_0
+      rect:
+        serializedVersion: 2
+        x: 76
+        y: 100
+        width: 212
+        height: 346
+      alignment: 0
+      pivot: {x: .5, y: .5}
+    - name: char_hero_beanMan_1
+      rect:
+        serializedVersion: 2
+        x: 334
+        y: 188
+        width: 36
+        height: 44
+      alignment: 0
+      pivot: {x: .5, y: .5}
+    - name: char_hero_beanMan_2
+      rect:
+        serializedVersion: 2
+        x: 298
+        y: 257
+        width: 372
+        height: 202
+      alignment: 0
+      pivot: {x: .5, y: .5}
+    - name: char_hero_beanMan_3
+      rect:
+        serializedVersion: 2
+        x: 739
+        y: 302
+        width: 74
+        height: 81
+      alignment: 0
+      pivot: {x: .5, y: .5}
+    - name: char_hero_beanMan_4
+      rect:
+        serializedVersion: 2
+        x: 836
+        y: 339
+        width: 29
+        height: 37
+      alignment: 0
+      pivot: {x: .5, y: .5}
+    - name: char_hero_beanMan_5
+      rect:
+        serializedVersion: 2
+        x: 764
+        y: 196
+        width: 87
+        height: 95
+      alignment: 0
+      pivot: {x: .5, y: .5}
+    - name: char_hero_beanMan_6
+      rect:
+        serializedVersion: 2
+        x: 468
+        y: 187
+        width: 154
+        height: 49
+      alignment: 0
+      pivot: {x: .5, y: .5}
+    - name: char_hero_beanMan_7
+      rect:
+        serializedVersion: 2
+        x: 13
+        y: 207
+        width: 54.9799995
+        height: 66
+      alignment: 9
+      pivot: {x: .899999976, y: .5}
+    - name: char_hero_beanMan_8
+      rect:
+        serializedVersion: 2
+        x: 54
+        y: 15
+        width: 118
+        height: 66
+      alignment: 9
+      pivot: {x: .589999974, y: .680000007}
+    - name: char_hero_beanMan_9
+      rect:
+        serializedVersion: 2
+        x: 247
+        y: 54
+        width: 69
+        height: 42
+      alignment: 0
+      pivot: {x: .5, y: .5}
+  spritePackingTag: 
+  userData: 
